@@ -1,0 +1,26 @@
+{
+  "name": "configurator",
+  "version": "1.0.0",
+  "description": "A synchronous, strongly typed configuration store that supports async updates and dynamic loaders.",
+  "keywords": [
+    "config",
+    "configuration",
+    "configurator",
+    "typescript",
+    "types"
+  ],
+  "author": "Thomas Rudfoss <thomas.rudfoss@dnvgl.com>",
+  "homepage": "https://github.com/rudfoss/aio/tree/master/packages/configurator#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rudfoss/aio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rudfoss/aio/issues"
+  },
+  "devDependencies": {
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  }
+}

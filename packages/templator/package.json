@@ -1,0 +1,37 @@
+{
+  "name": "templator",
+  "version": "1.0.0",
+  "description": "A command line tool that generates code based on templates and input arguments.",
+  "keywords": [
+    "template",
+    "generator",
+    "code-generator"
+  ],
+  "files": [
+    "lib"
+  ],
+  "bin": {
+    "templator": ".bin/templator"
+  },
+  "scripts": {
+    "build:ts": "tsc -p tsconfig.json",
+    "build": "rimraf lib && yarn build:ts",
+    "test": "templator"
+  },
+  "author": "Thomas Rudfoss <thomas.rudfoss@dnvgl.com>",
+  "homepage": "https://github.com/rudfoss/aio/tree/master/packages/templator#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rudfoss/aio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rudfoss/aio/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.1",
+    "rimraf": "^3.0.0",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.4"
+  }
+}

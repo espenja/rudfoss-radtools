@@ -9,6 +9,14 @@
     "typescript",
     "types"
   ],
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test": "jest"
+  },
   "author": "Thomas Rudfoss <thomas.rudfoss@dnvgl.com>",
   "homepage": "https://github.com/rudfoss/aio/tree/master/packages/configurator#readme",
   "license": "MIT",
@@ -20,7 +28,19 @@
     "url": "https://github.com/rudfoss/aio/issues"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "@types/lodash": "^4.14.144",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "bail": 1
   }
 }

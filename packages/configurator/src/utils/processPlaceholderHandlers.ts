@@ -80,20 +80,16 @@ const traverse = async <TConfig>(obj: any | any[], opts: {
 		Object.entries(obj)
 
 	for (const [key, value] of entries) {
-		if (Array.isArray(value)) {
+		const nextPath = Array.isArray(obj) ? `${path}[${key}]` : `${path === "" ? "" : path+"."}${key}`
+		if (typeof value === "object") {
 			obj[key] = await traverse(value, {
 				...opts,
-				path: path === "" ? `[${key}]` : `${path}[${key}]`
-			})
-		} else if (typeof value === "object") {
-			obj[key] = await traverse(value, {
-				...opts,
-				path: path === "" ? key.toString() : `${path}.${key}`
+				path: nextPath
 			})
 		} else if (typeof value === "string") {
 			obj[key] = await processValue({
 				...opts,
-				path: path === "" ? key.toString() : `${path}.${key}`,
+				path: nextPath,
 				value,
 				key
 			})

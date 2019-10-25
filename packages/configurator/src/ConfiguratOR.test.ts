@@ -2,7 +2,12 @@
 
 import ConfiguratOR from "./ConfiguratOR"
 
-const mockConfig = () => ({
+const delay = (time: number, resolveWith = true) =>
+	new Promise(
+		(resolve) => setTimeout(() => resolve(resolveWith), time)
+	)
+
+const mockConfig = (prefix: string = "::") => ({
 	stringValue: "this is a string value",
 	numericValue: 1234,
 	zero: 0,
@@ -14,7 +19,7 @@ const mockConfig = () => ({
 		"an",
 		{
 			value: "array",
-			placeholder: "::foo BAR1 bar2 'bar 3'"
+			placeholder: `${prefix}foo BAR1 bar2 'bar 3'`
 		}
 	],
 	parent: {
@@ -25,7 +30,7 @@ const mockConfig = () => ({
 			}
 		},
 		anArray: [
-			"::bar FEE FI FOO FUM"
+			`${prefix}bar FEE FI FOO FUM`
 		]
 	}
 })
@@ -299,12 +304,221 @@ describe("ConfiguratOR", () => {
 	})
 
 	describe("placeholders", () => {
-		it("if setting with undefined placeholders", async () => {
+		it("fails if no placeholder is defined", async () => {
 			const inst = new ConfiguratOR()
 			const config = mockConfig()
-			await inst.set(config).catch((err) => {
-				expect(err).toBeDefined()
+			try {
+				await inst.set(config)
+				expect(true).toBe(false) // If this expect is hit no error was thrown
+			} catch (error) {
+				expect(error).toBeDefined()
+			}
+		})
+		it("processes synchronous placeholders", async () => {
+			const inst = new ConfiguratOR()
+			const config = mockConfig()
+			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
+			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			inst.setPlaceholderHandler("foo", fooHandler)
+			inst.setPlaceholderHandler("bar", barHandler)
+			try {
+				await inst.set(config)
+			} catch (error) {
+				expect(true).toBe(false) // If an error is thrown this is a problem
+			}
+
+			expect(fooHandler.mock.calls.length).toBe(1)
+			expect(fooHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: "placeholder",
+				path: "arrayValue[3].placeholder",
+				value: "::foo BAR1 bar2 'bar 3'",
+				placeholder: "foo",
+				segments: ["BAR1", "bar2", "'bar 3'"]
 			})
+			expect(barHandler.mock.calls.length).toBe(1)
+			expect(barHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: 0,
+				path: "parent.anArray[0]",
+				value: "::bar FEE FI FOO FUM",
+				placeholder: "bar",
+				segments: ["FEE", "FI", "FOO", "FUM"]
+			})
+			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
+			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+		})
+		it("processes asynchronous placeholders", async () => {
+			const inst = new ConfiguratOR()
+			const config = mockConfig()
+			const fooHandler: jest.Mock<any, any> = jest.fn(async () => {
+				await delay(1)
+				return "placeholder replaced with FOO"
+			})
+			const barHandler: jest.Mock<any, any> = jest.fn(async () => {
+				await delay(1)
+				return "placeholder replaced with BAR"
+			})
+			inst.setPlaceholderHandler("foo", fooHandler)
+			inst.setPlaceholderHandler("bar", barHandler)
+			try {
+				await inst.set(config)
+			} catch (error) {
+				expect(true).toBe(false) // If an error is thrown this is a problem
+			}
+
+			expect(fooHandler.mock.calls.length).toBe(1)
+			expect(fooHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: "placeholder",
+				path: "arrayValue[3].placeholder",
+				value: "::foo BAR1 bar2 'bar 3'",
+				placeholder: "foo",
+				segments: ["BAR1", "bar2", "'bar 3'"]
+			})
+			expect(barHandler.mock.calls.length).toBe(1)
+			expect(barHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: 0,
+				path: "parent.anArray[0]",
+				value: "::bar FEE FI FOO FUM",
+				placeholder: "bar",
+				segments: ["FEE", "FI", "FOO", "FUM"]
+			})
+			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
+			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+		})
+		it("unregisters placeholders", async () => {
+			const inst = new ConfiguratOR()
+			const config = mockConfig()
+			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
+			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			inst.setPlaceholderHandler("foo", fooHandler)
+			inst.setPlaceholderHandler("bar", barHandler)
+
+			try {
+				await inst.set(config)
+			} catch (error) {
+				expect(true).toBe(false) // This should not throw since both handlers are registered
+			}
+
+			inst.removePlaceholderHandler("bar")
+			try {
+				await inst.set(config)
+			} catch (error) {
+				// Throws because no handler is registered for bar anymore
+				expect(error).toBeDefined()
+			}
+		})
+	})
+
+	describe("placeholders with custom prefix", () => {
+		const newPrefix = "-_-"
+		it("fails if no placeholder is defined", async () => {
+			const inst = new ConfiguratOR()
+			const config = mockConfig(newPrefix)
+			try {
+				await inst.set(config)
+				expect(true).toBe(false) // If this expect is hit no error was thrown
+			} catch (error) {
+				expect(error).toBeDefined()
+			}
+		})
+		it("processes synchronous placeholders", async () => {
+			const inst = new ConfiguratOR()
+			const config = mockConfig(newPrefix)
+			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
+			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			inst.setPlaceholderHandler("foo", fooHandler)
+			inst.setPlaceholderHandler("bar", barHandler)
+			try {
+				await inst.set(config)
+			} catch (error) {
+				expect(true).toBe(false) // If an error is thrown this is a problem
+			}
+
+			expect(fooHandler.mock.calls.length).toBe(1)
+			expect(fooHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: "placeholder",
+				path: "arrayValue[3].placeholder",
+				value: "-_-foo BAR1 bar2 'bar 3'",
+				placeholder: "foo",
+				segments: ["BAR1", "bar2", "'bar 3'"]
+			})
+			expect(barHandler.mock.calls.length).toBe(1)
+			expect(barHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: 0,
+				path: "parent.anArray[0]",
+				value: "-_-bar FEE FI FOO FUM",
+				placeholder: "bar",
+				segments: ["FEE", "FI", "FOO", "FUM"]
+			})
+			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
+			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+		})
+		it("processes asynchronous placeholders", async () => {
+			const inst = new ConfiguratOR()
+			const config = mockConfig(newPrefix)
+			const fooHandler: jest.Mock<any, any> = jest.fn(async () => {
+				await delay(1)
+				return "placeholder replaced with FOO"
+			})
+			const barHandler: jest.Mock<any, any> = jest.fn(async () => {
+				await delay(1)
+				return "placeholder replaced with BAR"
+			})
+			inst.setPlaceholderHandler("foo", fooHandler)
+			inst.setPlaceholderHandler("bar", barHandler)
+			try {
+				await inst.set(config)
+			} catch (error) {
+				expect(true).toBe(false) // If an error is thrown this is a problem
+			}
+
+			expect(fooHandler.mock.calls.length).toBe(1)
+			expect(fooHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: "placeholder",
+				path: "arrayValue[3].placeholder",
+				value: "-_-foo BAR1 bar2 'bar 3'",
+				placeholder: "foo",
+				segments: ["BAR1", "bar2", "'bar 3'"]
+			})
+			expect(barHandler.mock.calls.length).toBe(1)
+			expect(barHandler.mock.calls[0][0]).toEqual({
+				config,
+				key: 0,
+				path: "parent.anArray[0]",
+				value: "-_-bar FEE FI FOO FUM",
+				placeholder: "bar",
+				segments: ["FEE", "FI", "FOO", "FUM"]
+			})
+			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
+			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+		})
+		it("unregisters placeholders", async () => {
+			const inst = new ConfiguratOR()
+			const config = mockConfig(newPrefix)
+			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
+			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			inst.setPlaceholderHandler("foo", fooHandler)
+			inst.setPlaceholderHandler("bar", barHandler)
+
+			try {
+				await inst.set(config)
+			} catch (error) {
+				expect(true).toBe(false) // This should not throw since both handlers are registered
+			}
+
+			inst.removePlaceholderHandler("bar")
+			try {
+				await inst.set(config)
+			} catch (error) {
+				// Throws because no handler is registered for bar anymore
+				expect(error).toBeDefined()
+			}
 		})
 	})
 })

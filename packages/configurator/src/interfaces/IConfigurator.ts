@@ -114,7 +114,10 @@ export interface IConfigManager<TConfig> {
 	 * @param placeholder A case-sensitive name of the placeholder for this handler.
 	 * @param handler The handler function to call when the placeholder is encountered.
 	 */
-	setPlaceholderHandler<TValue>(placeholder: string, handler: ConfigPlaceholderHandler<TConfig, TValue>): void
+	setPlaceholderHandler<TValue>(
+		placeholder: string,
+		handler: ConfigPlaceholderHandler<TConfig, TValue>
+	): ConfigPlaceholderHandler<TConfig, TValue>
 	/**
 	 * Removes the placeholder handler registered for the provided placeholder if there is any.
 	 * If no handler is registered the function simply returns.

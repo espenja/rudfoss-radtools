@@ -107,7 +107,7 @@ export class ConfiguratOR<TConfig = any> implements
 	}
 
 	public setPlaceholderHandler<TValue>(placeholder: string, handler: ConfigPlaceholderHandler<TConfig, TValue>) {
-		this._placeholderHandlers[placeholder] = handler
+		return this._placeholderHandlers[placeholder] = handler
 	}
 	public removePlaceholderHandler(placeholder: string) {
 		delete this._placeholderHandlers[placeholder]

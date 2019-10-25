@@ -39,6 +39,7 @@
     "lodash": "^4.17.15"
   },
   "jest": {
+    "coverageDirectory": ".coverage",
     "preset": "ts-jest",
     "testEnvironment": "node",
     "bail": 1

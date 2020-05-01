@@ -41,13 +41,13 @@ const processValue = async <TConfig>(opts: {
 	ignoreUnknown?: boolean
 	handlers: IHandlerObject<TConfig>
 }) => {
-	const {key, path, value, config, prefix, ignoreUnknown, handlers} = opts
+	const { key, path, value, config, prefix, ignoreUnknown, handlers } = opts
 	const parsedPlaceholder = parsePlaceholder(value, prefix)
 	if (!parsedPlaceholder) {
 		return value
 	}
 
-	const {placeholder, segments} = parsedPlaceholder
+	const { placeholder, segments } = parsedPlaceholder
 	const handler = handlers[placeholder]
 	if (!handler) {
 		if (ignoreUnknown) {
@@ -66,21 +66,26 @@ const processValue = async <TConfig>(opts: {
 	})
 }
 
-const traverse = async <TConfig>(obj: any | any[], opts: {
-	path?: string
-	config: TConfig
-	handlers: IHandlerObject<TConfig>
-	ignoreUnknown?: boolean
-	prefix: string
-}) => {
-	const {path = ""} = opts
+const traverse = async <TConfig>(
+	obj: any | any[],
+	opts: {
+		path?: string
+		config: TConfig
+		handlers: IHandlerObject<TConfig>
+		ignoreUnknown?: boolean
+		prefix: string
+	}
+) => {
+	const { path = "" } = opts
 
-	const entries: Array<[number | string, any]> = Array.isArray(obj) ?
-		obj.map((val, idx) => [idx, val]):
-		Object.entries(obj)
+	const entries: Array<[number | string, any]> = Array.isArray(obj)
+		? obj.map((val, idx) => [idx, val])
+		: Object.entries(obj)
 
 	for (const [key, value] of entries) {
-		const nextPath = Array.isArray(obj) ? `${path}[${key}]` : `${path === "" ? "" : path+"."}${key}`
+		const nextPath = Array.isArray(obj)
+			? `${path}[${key}]`
+			: `${path === "" ? "" : path + "."}${key}`
 		if (typeof value === "object") {
 			obj[key] = await traverse(value, {
 				...opts,
@@ -103,7 +108,8 @@ export const processPlaceholderHandlers = async <TConfig>(
 	config: TConfig,
 	ignoreUnknownHandlers: boolean,
 	handlers: IHandlerObject<TConfig>,
-	prefix: string = "::"): Promise<TConfig> => {
+	prefix = "::"
+): Promise<TConfig> => {
 	return traverse(config, {
 		config,
 		handlers,

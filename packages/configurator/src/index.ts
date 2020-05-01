@@ -1,3 +1,2 @@
-import Configurator from "./ConfiguratOR"
+export { default } from "./ConfiguratOR"
 export * from "./placeholderHandlers"
-export default Configurator

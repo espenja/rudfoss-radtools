@@ -1,18 +1,27 @@
 {
-  "name": "aio",
+  "name": "@rudfoss/radtools",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rudfoss/aio.git"
+    "url": "git+https://github.com/rudfoss/rudfoss-radtools.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Thomas Haugland Rudfoss <thomas.rudfoss@pm.me>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rudfoss/aio/issues"
+    "url": "https://github.com/rudfoss/rudfoss-radtools/issues"
   },
-  "homepage": "https://github.com/rudfoss/aio#readme"
+  "homepage": "https://github.com/rudfoss/rudfoss-radtools#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
+  }
 }

@@ -6,7 +6,7 @@
 export const parseValue = (value?: string) => {
 	if (!value) return value
 	const normalizedValue = value.trim().toLocaleLowerCase()
-	const numericMatch = normalizedValue.match(/^([0-9]*)[\.,]{0,1}([0-9]*)$/)
+	const numericMatch = normalizedValue.match(/^([0-9]*)[.,]{0,1}([0-9]*)$/)
 	if (numericMatch) {
 		const [num = 0, decimal] = numericMatch
 		if (!decimal) {
@@ -15,16 +15,10 @@ export const parseValue = (value?: string) => {
 		return parseFloat(normalizedValue)
 	}
 
-	if (
-		normalizedValue === "true" ||
-		normalizedValue === "yes"
-		) {
+	if (normalizedValue === "true" || normalizedValue === "yes") {
 		return true
 	}
-	if (
-		normalizedValue === "false" ||
-		normalizedValue === "no"
-		) {
+	if (normalizedValue === "false" || normalizedValue === "no") {
 		return false
 	}
 

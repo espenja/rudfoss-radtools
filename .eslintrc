@@ -1,0 +1,13 @@
+{
+	"parserOptions": {
+		"ecmaVersion": 9
+	},
+	"env": {
+		"node": true
+	},
+	"extends": ["eslint:recommended", "plugin:prettier/recommended"],
+	"rules": {
+		"no-var": "error",
+		"no-extra-semi": "error"
+	}
+}

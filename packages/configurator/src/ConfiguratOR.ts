@@ -14,9 +14,13 @@ import {
 } from "./interfaces/IConfigurator"
 import processPlaceholderHandlers from "./utils/processPlaceholderHandlers"
 
-const waitForCleanStack = async (delayMS: number = 0) => new Promise((res) => setTimeout(() => res(), delayMS))
+const waitForCleanStack = async (delayMS = 0) =>
+	new Promise((res) => setTimeout(() => res(), delayMS))
 
-export const DEFAULT_CONFIGURATOR_SETTINGS: Required<Omit<IConfigSettings, "onSetError">> = {
+export const DEFAULT_CONFIGURATOR_SETTINGS: Required<Omit<
+	IConfigSettings,
+	"onSetError"
+>> = {
 	placeholderPrefix: "::",
 	throwListenerErrors: false,
 	waitForAsyncListeners: false,
@@ -27,8 +31,11 @@ export const DEFAULT_CONFIGURATOR_SETTINGS: Required<Omit<IConfigSettings, "onSe
 /**
  * The ConfiguratOR class manages a config object for you throughout the lifetime of your application.
  */
-export class ConfiguratOR<TConfig = any> implements
-	IConfigReader<TConfig>, IConfigWriter<TConfig>, IConfigManager<TConfig> {
+export class ConfiguratOR<TConfig = any>
+	implements
+		IConfigReader<TConfig>,
+		IConfigWriter<TConfig>,
+		IConfigManager<TConfig> {
 	private _configObject: any = {}
 
 	private _listeners: {
@@ -45,7 +52,8 @@ export class ConfiguratOR<TConfig = any> implements
 		[key: string]: ConfigPlaceholderHandler<TConfig, any>
 	} = {}
 
-	private _settings: IConfigSettings & Required<Omit<IConfigSettings, "onSetError">>
+	private _settings: IConfigSettings &
+		Required<Omit<IConfigSettings, "onSetError">>
 
 	private _queueProcessPromise?: Promise<TConfig>
 	private _isProcessingSetterQueue = false
@@ -58,8 +66,14 @@ export class ConfiguratOR<TConfig = any> implements
 		}
 	}
 
-	public get<TOutConfig = TConfig>(path?: string, defaultValue?: TOutConfig): TOutConfig {
-		const config = !path || path === "*" ? this._configObject : get(this._configObject, path, defaultValue)
+	public get<TOutConfig = TConfig>(
+		path?: string,
+		defaultValue?: TOutConfig
+	): TOutConfig {
+		const config =
+			!path || path === "*"
+				? this._configObject
+				: get(this._configObject, path, defaultValue)
 		return this._settings.writeProtect ? cloneDeep(config) : config
 	}
 	public has(path: string) {
@@ -67,24 +81,38 @@ export class ConfiguratOR<TConfig = any> implements
 	}
 
 	public set(config: TConfig | any): Promise<TConfig>
-	public set<TSubConfig>(path: string, config: TSubConfig | any): Promise<TConfig>
-	public set<TSubConfig>(path: string | TSubConfig | any, config?: TSubConfig | any): Promise<TConfig> {
+	public set<TSubConfig>(
+		path: string,
+		config: TSubConfig | any
+	): Promise<TConfig>
+	public set<TSubConfig>(
+		path: string | TSubConfig | any,
+		config?: TSubConfig | any
+	): Promise<TConfig> {
 		const realPath = typeof path === "string" ? path : "*"
-		const realConfig = !!config ? config : path
-		this._setterQueue = this._setterQueue.concat([{
-			path: realPath,
-			change: realConfig
-		}])
+		const realConfig = config ? config : path
+		this._setterQueue = this._setterQueue.concat([
+			{
+				path: realPath,
+				change: realConfig
+			}
+		])
 		return this._scheduleSetterQueueProcessing()
 	}
 
 	public on(callback: ConfigChangeListener<TConfig, TConfig>): void
-	public on<TSubConfig>(path: string, callback: ConfigChangeListener<TConfig, TSubConfig>): void
+	public on<TSubConfig>(
+		path: string,
+		callback: ConfigChangeListener<TConfig, TSubConfig>
+	): void
 	public on<TSubConfig>(
 		path: string | ConfigChangeListener<TConfig, TSubConfig>,
-		callback?: ConfigChangeListener<TConfig, TSubConfig>) {
+		callback?: ConfigChangeListener<TConfig, TSubConfig>
+	) {
 		const realPath = typeof path === "string" ? path : "*"
-		const newListener = !callback ? path as ConfigChangeListener<TConfig, TSubConfig> : callback
+		const newListener = !callback
+			? (path as ConfigChangeListener<TConfig, TSubConfig>)
+			: callback
 		const listeners = this._listeners[realPath] || []
 		this._listeners = {
 			...this._listeners,
@@ -92,22 +120,33 @@ export class ConfiguratOR<TConfig = any> implements
 		}
 	}
 	public off(callback: ConfigChangeListener<TConfig, TConfig>): void
-	public off<TSubConfig>(path: string, callback: ConfigChangeListener<TConfig, TSubConfig>): void
+	public off<TSubConfig>(
+		path: string,
+		callback: ConfigChangeListener<TConfig, TSubConfig>
+	): void
 	public off<TSubConfig>(
 		path: string | ConfigChangeListener<TConfig, TSubConfig>,
-		callback?: ConfigChangeListener<TConfig, TSubConfig>) {
+		callback?: ConfigChangeListener<TConfig, TSubConfig>
+	) {
 		const realPath = typeof path === "string" ? path : "*"
-		const listenerToRemove = !callback ? path as ConfigChangeListener<TConfig, TSubConfig> : callback
+		const listenerToRemove = !callback
+			? (path as ConfigChangeListener<TConfig, TSubConfig>)
+			: callback
 		const listeners = this._listeners[realPath] || []
-		const newListeners = listeners.filter((aListener) => aListener !== listenerToRemove)
+		const newListeners = listeners.filter(
+			(aListener) => aListener !== listenerToRemove
+		)
 		this._listeners = {
 			...this._listeners,
 			[realPath]: newListeners
 		}
 	}
 
-	public setPlaceholderHandler<TValue>(placeholder: string, handler: ConfigPlaceholderHandler<TConfig, TValue>) {
-		return this._placeholderHandlers[placeholder] = handler
+	public setPlaceholderHandler<TValue>(
+		placeholder: string,
+		handler: ConfigPlaceholderHandler<TConfig, TValue>
+	) {
+		return (this._placeholderHandlers[placeholder] = handler)
 	}
 	public removePlaceholderHandler(placeholder: string) {
 		delete this._placeholderHandlers[placeholder]
@@ -118,7 +157,8 @@ export class ConfiguratOR<TConfig = any> implements
 	}
 
 	private _scheduleSetterQueueProcessing() {
-		if (this._setterQueue.length === 0) return new Promise<TConfig>((resolve) => resolve(this.get()))
+		if (this._setterQueue.length === 0)
+			return new Promise<TConfig>((resolve) => resolve(this.get()))
 
 		if (this._queueProcessPromise) {
 			if (this._isProcessingSetterQueue) {
@@ -127,13 +167,15 @@ export class ConfiguratOR<TConfig = any> implements
 			return this._queueProcessPromise
 		}
 
-		return this._queueProcessPromise = this._handleSetterQueue().finally(() => {
-			this._queueProcessPromise = undefined
-			if (this._receivedNewSettersWhileProcessingSetterQueue) {
-				this._receivedNewSettersWhileProcessingSetterQueue = false
-				this._scheduleSetterQueueProcessing()
+		return (this._queueProcessPromise = this._handleSetterQueue().finally(
+			() => {
+				this._queueProcessPromise = undefined
+				if (this._receivedNewSettersWhileProcessingSetterQueue) {
+					this._receivedNewSettersWhileProcessingSetterQueue = false
+					this._scheduleSetterQueueProcessing()
+				}
 			}
-		})
+		))
 	}
 
 	private async _notifyListeners(
@@ -142,7 +184,8 @@ export class ConfiguratOR<TConfig = any> implements
 		listenerSet: {
 			"*": Array<ConfigChangeListener<TConfig, any>>
 			[key: string]: Array<ConfigChangeListener<TConfig, any>>
-		}) {
+		}
+	) {
 		try {
 			for (const [path, listeners] of Object.entries(listenerSet)) {
 				if (listeners.length === 0) continue
@@ -161,7 +204,9 @@ export class ConfiguratOR<TConfig = any> implements
 							...opts,
 							off: () => this.off(path, listener)
 						}
-						this._settings.waitForAsyncListeners ? await listener(fullOpts) : listener(fullOpts)
+						this._settings.waitForAsyncListeners
+							? await listener(fullOpts)
+							: listener(fullOpts)
 					}
 				}
 			}
@@ -207,7 +252,8 @@ export class ConfiguratOR<TConfig = any> implements
 					newConfig,
 					this._settings.ignoreUnknownPlaceholders,
 					this._placeholderHandlers,
-					this._settings.placeholderPrefix)
+					this._settings.placeholderPrefix
+				)
 			} catch (error) {
 				const placeholderError = PlaceholderError.Wrap(error)
 				if (this._settings.onSetError) {

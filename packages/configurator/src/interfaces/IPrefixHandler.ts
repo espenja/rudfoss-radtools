@@ -1,4 +1,4 @@
 export interface IPrefixHandler {
 	prefixes: string | string[]
-	handle<TOutput = any>(values: string[], prefix: string): 
+	handle(values: string[], prefix: string): any
 }

@@ -23,8 +23,9 @@ export interface IConfigChangeListenerOpts<TConfig, TSubConfig> {
 	 */
 	off(): void
 }
-export type ConfigChangeListener<TConfig, TSubConfig> =
-	(opts: IConfigChangeListenerOpts<TConfig, TSubConfig>) => any | Promise<any>
+export type ConfigChangeListener<TConfig, TSubConfig> = (
+	opts: IConfigChangeListenerOpts<TConfig, TSubConfig>
+) => any | Promise<any>
 
 export interface IConfigPlaceholderHandlerOpts<TConfig> {
 	/**
@@ -53,8 +54,9 @@ export interface IConfigPlaceholderHandlerOpts<TConfig> {
 	 */
 	segments: string[]
 }
-export type ConfigPlaceholderHandler<TConfig, TValue> =
-	(opts: IConfigPlaceholderHandlerOpts<TConfig>) => TValue | Promise<TValue>
+export type ConfigPlaceholderHandler<TConfig, TValue> = (
+	opts: IConfigPlaceholderHandlerOpts<TConfig>
+) => TValue | Promise<TValue>
 
 /**
  * Implements the read operations of a configurator.
@@ -65,7 +67,10 @@ export interface IConfigReader<TConfig> {
 	 * If configuration manager is write protected a clone of the object is returned.
 	 * @param path The path from the root of the object to return.
 	 */
-	get<TOutConfig = TConfig>(path?: string, defaultValue?: TOutConfig): TOutConfig
+	get<TOutConfig = TConfig>(
+		path?: string,
+		defaultValue?: TOutConfig
+	): TOutConfig
 
 	/**
 	 * Checks if the given path has a value other than undefined.
@@ -80,7 +85,10 @@ export interface IConfigReader<TConfig> {
 	 * @param callback The function to call once the path updates.
 	 */
 	on(callback: ConfigChangeListener<TConfig, TConfig>): void
-	on<TSubConfig>(path: string, callback: ConfigChangeListener<TConfig, TSubConfig>): void
+	on<TSubConfig>(
+		path: string,
+		callback: ConfigChangeListener<TConfig, TSubConfig>
+	): void
 	/**
 	 * Removes a previously registered subscriber for updates to a specific path.
 	 * @see on
@@ -88,7 +96,10 @@ export interface IConfigReader<TConfig> {
 	 * @param callback The registered callback function to remove.
 	 */
 	off(callback: ConfigChangeListener<TConfig, TConfig>): void
-	off<TSubConfig>(path: string, callback: ConfigChangeListener<TConfig, TSubConfig>): void
+	off<TSubConfig>(
+		path: string,
+		callback: ConfigChangeListener<TConfig, TSubConfig>
+	): void
 }
 
 export interface IConfigWriter<TConfig> {

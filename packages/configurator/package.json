@@ -17,23 +17,22 @@
     "test:watch": "jest --watch",
     "test": "jest"
   },
-  "author": "Thomas Rudfoss <thomas.rudfoss@dnvgl.com>",
-  "homepage": "https://github.com/rudfoss/aio/tree/master/packages/configurator#readme",
+  "author": "Thomas Haugland Rudfoss <thomas.rudfoss@pm.me>",
+  "homepage": "https://github.com/rudfoss/rudfoss-radtools/tree/master/packages/configurator#readme",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rudfoss/aio.git"
+    "url": "git+https://github.com/rudfoss/rudfoss-radtools.git"
   },
   "bugs": {
-    "url": "https://github.com/rudfoss/aio/issues"
+    "url": "https://github.com/rudfoss/rudfoss-radtools/issues"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
     "@types/lodash": "^4.14.144",
+    "@types/node": "^13.13.4",
     "jest": "^24.9.0",
-    "ts-jest": "^24.1.0",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "ts-jest": "^24.1.0"
   },
   "dependencies": {
     "lodash": "^4.17.15"

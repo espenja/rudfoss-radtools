@@ -9,7 +9,9 @@ import { parseValue } from "../utils/parseValue"
  * If no environment variables are defined and no default value is provided an error is thrown.
  * @param opts
  */
-export const envPlaceholderHandler: ConfigPlaceholderHandler<any, any> = (opts) => {
+export const envPlaceholderHandler: ConfigPlaceholderHandler<any, any> = (
+	opts
+) => {
 	for (const segment of opts.segments) {
 		const val = process.env[segment]
 		if (val) {
@@ -17,14 +19,15 @@ export const envPlaceholderHandler: ConfigPlaceholderHandler<any, any> = (opts) 
 		}
 	}
 
-	const lastSegment = opts.segments[opts.segments.length-1]
+	const lastSegment = opts.segments[opts.segments.length - 1]
 	if (lastSegment.startsWith("'") && lastSegment.endsWith("'")) {
 		// assume last segment is a default value and parse accordingly
-		return parseValue(lastSegment.substr(1, lastSegment.length-2))
+		return parseValue(lastSegment.substr(1, lastSegment.length - 2))
 	}
 
 	throw new Error(
-		`Failed to resolve env placeholder ${opts.value}. No env variable found and no default value provided.`)
+		`Failed to resolve env placeholder ${opts.value}. No env variable found and no default value provided.`
+	)
 }
 
 export default envPlaceholderHandler

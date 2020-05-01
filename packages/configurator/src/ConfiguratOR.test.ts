@@ -3,11 +3,9 @@
 import ConfiguratOR from "./ConfiguratOR"
 
 const delay = (time: number, resolveWith = true) =>
-	new Promise(
-		(resolve) => setTimeout(() => resolve(resolveWith), time)
-	)
+	new Promise((resolve) => setTimeout(() => resolve(resolveWith), time))
 
-const mockConfig = (prefix: string = "::") => ({
+const mockConfig = (prefix = "::") => ({
 	stringValue: "this is a string value",
 	numericValue: 1234,
 	zero: 0,
@@ -29,9 +27,7 @@ const mockConfig = (prefix: string = "::") => ({
 				anotherValue: "123abc"
 			}
 		},
-		anArray: [
-			`${prefix}bar FEE FI FOO FUM`
-		]
+		anArray: [`${prefix}bar FEE FI FOO FUM`]
 	}
 })
 
@@ -107,7 +103,7 @@ describe("ConfiguratOR", () => {
 			expect(inst.get("parent.child")).toBe(config.parent.child)
 			await inst.set("parent.child", { secretValue: 42 })
 			expect(inst.get("parent.child")).not.toEqual(config.parent.child)
-			expect(inst.get("parent.child")).toEqual({secretValue: 42})
+			expect(inst.get("parent.child")).toEqual({ secretValue: 42 })
 			expect(inst.get("arrayValue")).toBe(config.arrayValue)
 		})
 		it("processes setters only once per stack", async () => {
@@ -116,7 +112,9 @@ describe("ConfiguratOR", () => {
 			})
 			const config = mockConfig() as any
 
-			const mockHandler = inst["_handleSetterQueue"] = jest.fn(inst["_handleSetterQueue"].bind(inst))
+			const mockHandler = (inst["_handleSetterQueue"] = jest.fn(
+				inst["_handleSetterQueue"].bind(inst)
+			))
 			const promise = inst.set(config)
 			const secondPromise = inst.set({
 				floatValue: 123.456
@@ -156,7 +154,9 @@ describe("ConfiguratOR", () => {
 			expect(inst.get("numericValue")).toBe(config.numericValue)
 			expect(inst.get("arrayValue[0]")).toBe(config.arrayValue[0])
 			expect(inst.get("arrayValue[3].value")).toBe(config.arrayValue[3].value)
-			expect(inst.get("parent.child.leaf.anotherValue")).toBe(config.parent.child.leaf.anotherValue)
+			expect(inst.get("parent.child.leaf.anotherValue")).toBe(
+				config.parent.child.leaf.anotherValue
+			)
 
 			expect(inst.get("notSet")).toBe(undefined)
 			expect(inst.get("notSet.subset.subset")).toBe(undefined)
@@ -170,9 +170,13 @@ describe("ConfiguratOR", () => {
 			const config = mockConfig() as any
 			await inst.set(config)
 			expect(inst.get("boolFalse")).toBe(false)
-			expect(inst.get("not.defined", {default: "value"})).toEqual({default: "value"})
-			expect(inst.get("arrayValue[0]", {default: "value"})).toEqual("this")
-			expect(inst.get("arrayValue[10]", {default: "value"})).toEqual({default: "value"})
+			expect(inst.get("not.defined", { default: "value" })).toEqual({
+				default: "value"
+			})
+			expect(inst.get("arrayValue[0]", { default: "value" })).toEqual("this")
+			expect(inst.get("arrayValue[10]", { default: "value" })).toEqual({
+				default: "value"
+			})
 		})
 	})
 
@@ -317,8 +321,12 @@ describe("ConfiguratOR", () => {
 		it("processes synchronous placeholders", async () => {
 			const inst = new ConfiguratOR()
 			const config = mockConfig()
-			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
-			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			const fooHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with FOO"
+			)
+			const barHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with BAR"
+			)
 			inst.setPlaceholderHandler("foo", fooHandler)
 			inst.setPlaceholderHandler("bar", barHandler)
 			try {
@@ -345,8 +353,12 @@ describe("ConfiguratOR", () => {
 				placeholder: "bar",
 				segments: ["FEE", "FI", "FOO", "FUM"]
 			})
-			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
-			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+			expect(inst.get("arrayValue[3].placeholder")).toEqual(
+				"placeholder replaced with FOO"
+			)
+			expect(inst.get("parent.anArray[0]")).toEqual(
+				"placeholder replaced with BAR"
+			)
 		})
 		it("processes asynchronous placeholders", async () => {
 			const inst = new ConfiguratOR()
@@ -385,14 +397,22 @@ describe("ConfiguratOR", () => {
 				placeholder: "bar",
 				segments: ["FEE", "FI", "FOO", "FUM"]
 			})
-			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
-			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+			expect(inst.get("arrayValue[3].placeholder")).toEqual(
+				"placeholder replaced with FOO"
+			)
+			expect(inst.get("parent.anArray[0]")).toEqual(
+				"placeholder replaced with BAR"
+			)
 		})
 		it("unregisters placeholders", async () => {
 			const inst = new ConfiguratOR()
 			const config = mockConfig()
-			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
-			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			const fooHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with FOO"
+			)
+			const barHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with BAR"
+			)
 			inst.setPlaceholderHandler("foo", fooHandler)
 			inst.setPlaceholderHandler("bar", barHandler)
 
@@ -427,8 +447,12 @@ describe("ConfiguratOR", () => {
 		it("processes synchronous placeholders", async () => {
 			const inst = new ConfiguratOR()
 			const config = mockConfig(newPrefix)
-			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
-			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			const fooHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with FOO"
+			)
+			const barHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with BAR"
+			)
 			inst.setPlaceholderHandler("foo", fooHandler)
 			inst.setPlaceholderHandler("bar", barHandler)
 			try {
@@ -455,8 +479,12 @@ describe("ConfiguratOR", () => {
 				placeholder: "bar",
 				segments: ["FEE", "FI", "FOO", "FUM"]
 			})
-			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
-			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+			expect(inst.get("arrayValue[3].placeholder")).toEqual(
+				"placeholder replaced with FOO"
+			)
+			expect(inst.get("parent.anArray[0]")).toEqual(
+				"placeholder replaced with BAR"
+			)
 		})
 		it("processes asynchronous placeholders", async () => {
 			const inst = new ConfiguratOR()
@@ -495,14 +523,22 @@ describe("ConfiguratOR", () => {
 				placeholder: "bar",
 				segments: ["FEE", "FI", "FOO", "FUM"]
 			})
-			expect(inst.get("arrayValue[3].placeholder")).toEqual("placeholder replaced with FOO")
-			expect(inst.get("parent.anArray[0]")).toEqual("placeholder replaced with BAR")
+			expect(inst.get("arrayValue[3].placeholder")).toEqual(
+				"placeholder replaced with FOO"
+			)
+			expect(inst.get("parent.anArray[0]")).toEqual(
+				"placeholder replaced with BAR"
+			)
 		})
 		it("unregisters placeholders", async () => {
 			const inst = new ConfiguratOR()
 			const config = mockConfig(newPrefix)
-			const fooHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with FOO")
-			const barHandler: jest.Mock<any, any> = jest.fn(() => "placeholder replaced with BAR")
+			const fooHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with FOO"
+			)
+			const barHandler: jest.Mock<any, any> = jest.fn(
+				() => "placeholder replaced with BAR"
+			)
 			inst.setPlaceholderHandler("foo", fooHandler)
 			inst.setPlaceholderHandler("bar", barHandler)
 

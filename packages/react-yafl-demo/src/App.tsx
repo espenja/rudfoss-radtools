@@ -1,4 +1,5 @@
 import React from "react"
+import GlobalStyles from "features/GlobalStyles"
 
 declare global {
 	interface Window {
@@ -14,9 +15,12 @@ export class App extends React.PureComponent<any> {
 
 	public render() {
 		return (
-			<div>
-				<h1>Hello world</h1>
-			</div>
+			<>
+				<GlobalStyles />
+				<div>
+					<h1>Hello world</h1>
+				</div>
+			</>
 		)
 	}
 }

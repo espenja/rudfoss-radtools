@@ -3,6 +3,9 @@
 	"compilerOptions": {
 		"baseUrl": "./src",
 		"target": "ESNext",
-		"module": "ESNext"
+		"module": "ESNext",
+		"paths": {
+			"features/*": ["./features/*"]
+		}
 	}
 }

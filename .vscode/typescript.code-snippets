@@ -87,7 +87,7 @@
 			"",
 			"export default ${1}"
 		],
-		"scope": "typescriptreact"
+		"scope": "typescript,typescriptreact"
 	},
 	"react-ts-func-props": {
 		"prefix": "react-func-props",
@@ -105,7 +105,7 @@
 			"",
 			"export default ${1}"
 		],
-		"scope": "typescriptreact"
+		"scope": "typescript,typescriptreact"
 	},
 	"react-ts-func-state": {
 		"prefix": "react-func-state",
@@ -122,7 +122,7 @@
 			"",
 			"export default ${1}"
 		],
-		"scope": "typescriptreact"
+		"scope": "typescript,typescriptreact"
 	},
 	"react-ts-func-propstate": {
 		"prefix": "react-func-propstate",
@@ -140,7 +140,7 @@
 			"",
 			"export default ${1}"
 		],
-		"scope": "typescriptreact"
+		"scope": "typescript,typescriptreact"
 	},
 
 	"react-ts-error": {

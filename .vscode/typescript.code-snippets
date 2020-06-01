@@ -144,7 +144,7 @@
 	},
 
 	"react-ts-error": {
-		"prefix": "react-error",
+		"prefix": "react-ts-error",
 		"description": "Scaffolds a basic error boundary React class component",
 		"body": [
 			"import React from \"react\"",
@@ -180,6 +180,37 @@
 			"}",
 			"",
 			"export default ${1:name}"
+		],
+		"scope": "typescriptreact"
+	},
+	"react-ts-app": {
+		"prefix": "react-ts-app",
+		"description": "Scaffolds the root App component as a class.",
+		"body": [
+			"import React from \"react\"",
+			"",
+			"declare global {",
+			"\tinterface Window {",
+			"\t\tapp: App",
+			"\t}",
+			"}",
+			"",
+			"export class App extends React.PureComponent<any> {",
+			"\tpublic constructor(props: any) {",
+			"\t\tsuper(props)",
+			"\t\twindow.app = this",
+			"\t}",
+			"",
+			"\tpublic render() {",
+			"\t\treturn (",
+			"\t\t\t<div>",
+			"\t\t\t\t<h1>${1}</h1>",
+			"\t\t\t</div>",
+			"\t\t)",
+			"\t}",
+			"}",
+			"",
+			"export default App"
 		],
 		"scope": "typescriptreact"
 	}

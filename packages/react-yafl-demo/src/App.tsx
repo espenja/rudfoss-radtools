@@ -1,5 +1,5 @@
 import React from "react"
-import GlobalStyles from "features/GlobalStyles"
+import GlobalStyles from "features/styles/GlobalStyles"
 
 declare global {
 	interface Window {

@@ -1,5 +1,8 @@
 import React from "react"
 import GlobalStyles from "features/styles/GlobalStyles"
+import { BrowserRouter as Router } from "react-router-dom"
+import Routes from "features/routes"
+import Nav from "features/Nav"
 
 declare global {
 	interface Window {
@@ -17,9 +20,10 @@ export class App extends React.PureComponent<any> {
 		return (
 			<>
 				<GlobalStyles />
-				<div>
-					<h1>Hello world</h1>
-				</div>
+				<Router>
+					<Nav />
+					<Routes />
+				</Router>
 			</>
 		)
 	}

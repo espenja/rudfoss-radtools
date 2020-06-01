@@ -39,8 +39,8 @@ export default async () => {
 
 		entry: [
 			// https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import#working-with-webpack-and-babel-preset-env
-			"core-js/modules/es.promise",
-			"core-js/modules/es.array.iterator",
+			// "core-js/modules/es.promise",
+			// "core-js/modules/es.array.iterator",
 
 			INDEX_JS_FILE
 		],
@@ -77,7 +77,8 @@ export default async () => {
 										"@babel/preset-env", // Adds dynamic imports of the necessary polyfills (see .browserslistrc for spec)
 										{
 											useBuiltIns: "usage",
-											corejs: { version: 3, proposals: true }
+											corejs: { version: 3, proposals: true },
+											debug: true
 										}
 									],
 									"@babel/preset-typescript",

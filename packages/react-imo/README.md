@@ -23,3 +23,7 @@ An opinionated stack for React and Node.
 ## Guidelines
 
 Anything related to the request should be attached to the `req` object. This means internal state, session, loggers, instance vars and other data. `req` binds it all together.
+
+## Run dev environment
+
+The dev environment supports hot-reloading of client assets through the webpack-dev-server.

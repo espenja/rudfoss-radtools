@@ -26,6 +26,7 @@ import { writeUTFFile } from "utils/node/writeFile"
 
 const secure = process.env.NODE_ENV !== "production"
 const port = process.env.PORT || 3000
+process.env.ROOT_DIR = __dirname
 
 const createSecureServer = async (listener: http.RequestListener) => {
 	const cacheDir = path.resolve(__dirname, "../.cache")

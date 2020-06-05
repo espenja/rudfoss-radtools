@@ -14,7 +14,7 @@ const SRC_FOLDER = path.resolve(ROOT_FOLDER, "src")
 const INDEX_JS_FILE = path.resolve(SRC_FOLDER, "index.render.ts")
 const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "../server/index.html")
 const DIST_FOLDER = path.resolve(ROOT_FOLDER, "dist-dev")
-const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "tsconfig.json")
+const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "../tsconfig.json")
 
 // Fix for TsConfigPathsPlugin trying to load multiple configuration files
 process.env.TS_NODE_PROJECT = ""

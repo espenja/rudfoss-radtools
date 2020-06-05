@@ -29,10 +29,11 @@
 				"-r",
 				"tsconfig-paths/register"
 			],
-			"cwd": "${workspaceFolder}/packages/react-imo/server/src",
+			"cwd": "${workspaceFolder}/packages/react-imo",
 			"env": {
 				"NODE_ENV": "development",
-				"TS_NODE_PROJECT": "${workspaceFolder}/packages/react-imo/server/tsconfig.json"
+				"TS_NODE_PROJECT": "${workspaceFolder}/packages/react-imo/tsconfig.json",
+				"TS_NODE_TRANSPILE_ONLY": "true"
 			}
 		}
 	]

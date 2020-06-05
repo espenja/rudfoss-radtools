@@ -1,9 +1,6 @@
 import path from "path"
 import webpack, { DefinePlugin } from "webpack"
 
-import ForkTSCheckerPlugin from "fork-ts-checker-webpack-plugin"
-import HtmlHarddiskPlugin from "html-webpack-harddisk-plugin"
-import HtmlPlugin from "html-webpack-plugin"
 import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers

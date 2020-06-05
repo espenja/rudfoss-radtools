@@ -16,7 +16,7 @@ import express from "express"
 import http from "http"
 import https from "https"
 import { generateCerts } from "utils/generateCerts"
-import { setup } from "setup"
+import setup from "./setup"
 
 const secure = process.env.NODE_ENV !== "production"
 const port = process.env.PORT || 3000

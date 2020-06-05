@@ -19,3 +19,7 @@ An opinionated stack for React and Node.
 - Full support for mono-repo solutions
 - Uses well supported tools: React, webpack, TypeScript, ExpressJS
 - Fully bundled client and server (no need to deploy 100k files in node_modules)
+
+## Guidelines
+
+Anything related to the request should be attached to the `req` object. This means internal state, session, loggers, instance vars and other data. `req` binds it all together.

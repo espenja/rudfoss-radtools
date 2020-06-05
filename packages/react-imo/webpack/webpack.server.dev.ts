@@ -1,6 +1,5 @@
 import path from "path"
 import webpack, { DefinePlugin } from "webpack"
-import "webpack-dev-server" // Adds devServer types to configuration
 
 import ForkTSCheckerPlugin from "fork-ts-checker-webpack-plugin"
 import HtmlHarddiskPlugin from "html-webpack-harddisk-plugin"
@@ -9,10 +8,9 @@ import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
-const ROOT_FOLDER = path.resolve(__dirname, "../client")
+const ROOT_FOLDER = path.resolve(__dirname, "../server")
 const SRC_FOLDER = path.resolve(ROOT_FOLDER, "src")
-const INDEX_JS_FILE = path.resolve(SRC_FOLDER, "index.render.ts")
-const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "index.html")
+const INDEX_JS_FILE = path.resolve(SRC_FOLDER, "server.ts")
 const DIST_FOLDER = path.resolve(ROOT_FOLDER, "dist-dev")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "tsconfig.json")
 
@@ -21,43 +19,19 @@ process.env.TS_NODE_PROJECT = ""
 
 export default async () => {
 	const config: webpack.Configuration = {
-		mode: "development",
-		target: "web",
+		mode: "production",
+		target: "node",
 		devtool: "source-map",
 
-		devServer: {
-			historyApiFallback: true,
-			hot: true,
-			https: true,
-			overlay: true,
-			inline: true,
-			writeToDisk: true,
-			port: 3010,
-			headers: {
-				"Access-Control-Allow-Origin": "*"
-			}
-		},
-
-		entry: [
-			// https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import#working-with-webpack-and-babel-preset-env
-			// "core-js/modules/es.promise",
-			// "core-js/modules/es.array.iterator",
-
-			INDEX_JS_FILE
-		],
+		entry: [INDEX_JS_FILE],
 
 		output: {
-			filename: "js/[name]-[hash].js",
-			chunkFilename: "js/[name]-[hash].js",
-			publicPath: "https://localhost:3010/", // The last / is critical, without it reloading breaks
+			filename: "server.js",
 			path: DIST_FOLDER
 		},
 
 		resolve: {
 			extensions: [".js", ".ts", ".tsx"],
-			alias: {
-				"react-dom": "@hot-loader/react-dom" // https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom
-			},
 			plugins: [
 				new TsConfigPathsPlugin({
 					configFile: TS_CONFIG_PATH
@@ -83,6 +57,9 @@ export default async () => {
 										{
 											useBuiltIns: "usage",
 											corejs: { version: 3, proposals: true },
+											targets: {
+												node: "current"
+											},
 											debug: true
 										}
 									],
@@ -101,15 +78,6 @@ export default async () => {
 			]
 		},
 		plugins: [
-			new HtmlPlugin({
-				template: INDEX_HTML_FILE,
-				alwaysWriteToDisk: true,
-				minify: false
-			}),
-			new HtmlHarddiskPlugin(),
-			new ForkTSCheckerPlugin({
-				tsconfig: TS_CONFIG_PATH
-			}),
 			new DefinePlugin({
 				"process.env.NODE_ENV": JSON.stringify("development")
 			})

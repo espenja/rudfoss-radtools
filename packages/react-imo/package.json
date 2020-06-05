@@ -5,7 +5,8 @@
   "license": "MIT",
   "description": "React In-My-Opinion is an opinionated, server and client for react built on node",
   "scripts": {
-    "dev": "rimraf ./dist-dev && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack-dev-server --config webpack/webpack.client.dev.ts --progress --hot"
+    "dev": "rimraf ./client/dist-dev && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack-dev-server --config webpack/webpack.client.dev.ts --progress --hot",
+    "build:server": "rimraf ./server/dist-dev && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack --config webpack/webpack.server.dev.ts --progress"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

@@ -8,7 +8,7 @@ const CACHE_ENABLED = true // Control caching for all rules/plugins and optimize
 const ROOT_FOLDER = path.resolve(__dirname, "../server")
 const SRC_FOLDER = path.resolve(ROOT_FOLDER, "src")
 const INDEX_JS_FILE = path.resolve(SRC_FOLDER, "server.ts")
-const DIST_FOLDER = path.resolve(ROOT_FOLDER, "dist-dev")
+const DIST_FOLDER = path.resolve(ROOT_FOLDER, "../dist/server")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "tsconfig.json")
 
 // Fix for TsConfigPathsPlugin trying to load multiple configuration files

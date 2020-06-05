@@ -15,27 +15,60 @@ import express from "express"
 
 import http from "http"
 import https from "https"
-import { generateCerts } from "utils/generateCerts"
+import path from "path"
+
 import setup from "./setup"
+import { generateCerts } from "utils/generateCerts"
+import { ensureDir } from "utils/node/ensureDir"
+import { pathExists } from "utils/node/pathExists"
+import { readUTFFile } from "utils/node/readFile"
+import { writeUTFFile } from "utils/node/writeFile"
 
 const secure = process.env.NODE_ENV !== "production"
 const port = process.env.PORT || 3000
+
+const createSecureServer = async (listener: http.RequestListener) => {
+	const cacheDir = path.resolve(__dirname, "../.cache")
+	const keyPath = path.resolve(cacheDir, "key.pem")
+	const certPath = path.resolve(cacheDir, "cert.pem")
+
+	let key = ""
+	let cert = ""
+	if (
+		!(await pathExists(keyPath, "file")) ||
+		!(await pathExists(certPath, "file"))
+	) {
+		console.log(`No certs found in "${cacheDir}". Must generate.`)
+		await ensureDir(cacheDir)
+		const keyCert = generateCerts()
+		key = keyCert.key
+		cert = keyCert.cert
+		await writeUTFFile(keyPath, key)
+		await writeUTFFile(certPath, cert)
+		console.log(`Generated key key "${keyPath}" and cert "${certPath}"`)
+	} else {
+		key = await readUTFFile(keyPath)
+		cert = await readUTFFile(certPath)
+	}
+
+	return https.createServer({ key, cert }, listener)
+}
 
 /**
  * Creates a new http(s) server. Will generate certificates if secure = true
  * @param listener The handler for incomming requests.
  * @param secure Whether to create a HTTPS server or not.
  */
-const createServer = (listener: http.RequestListener, secure = false) =>
-	secure
-		? http.createServer(listener)
-		: https.createServer(generateCerts(), listener)
+const createServer = async (listener: http.RequestListener, secure = false) =>
+	secure ? http.createServer(listener) : await createSecureServer(listener)
 
 const start = async () => {
+	console.log("START SERVER")
+
 	const server = express()
 	await setup(server)
 
-	const httpServer = createServer(server)
+	const httpServer = await createServer(server)
 	httpServer.listen(port, () => {
 		console.log(
 			`Server listening @ ${secure ? "https" : "http"}://localhost:${port}`

@@ -6,7 +6,8 @@
   "description": "React In-My-Opinion is an opinionated, server and client for react built on node",
   "scripts": {
     "dev": "rimraf ./client/dist-dev && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack-dev-server --config webpack/webpack.client.dev.ts --progress --hot",
-    "build:server": "rimraf ./server/dist-dev && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack --config webpack/webpack.server.dev.ts --progress"
+    "build:server": "rimraf ./dist/server && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack --config webpack/webpack.server.prod.ts --progress",
+    "build": "rimraf ./dist && yarn build:server"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -16,6 +17,7 @@
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
     "@hot-loader/react-dom": "^16.13.0",
+    "@types/fs-extra": "^9.0.1",
     "@types/node-forge": "^0.9.3",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
@@ -24,6 +26,7 @@
     "@types/webpack-dev-server": "^3.11.0",
     "babel-loader": "^8.1.0",
     "core-js": "^3.6.5",
+    "dotenv": "^8.2.0",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "html-webpack-harddisk-plugin": "^1.0.1",
     "html-webpack-plugin": "^4.3.0",
@@ -34,6 +37,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "fast-glob": "^3.2.2",
+    "fs-extra": "^9.0.1",
     "nanoid": "^3.1.9",
     "node-forge": "^0.9.1",
     "react": "^16.13.1",

@@ -10,12 +10,6 @@ import forge from "node-forge"
  * Requires dependency node-forge
  */
 export const generateCerts = () => {
-	if (process.env.NODE_ENV === "production") {
-		console.warn(
-			"The generateCertificate utility should not be used for production code."
-		)
-	}
-
 	const pki = forge.pki
 	const keys = pki.rsa.generateKeyPair(2048)
 	const cert = pki.createCertificate()
@@ -29,7 +23,7 @@ export const generateCerts = () => {
 	const attrs = [
 		{
 			name: "commonName",
-			value: "forms.udi"
+			value: "localhost"
 		},
 		{
 			name: "countryName",
@@ -41,7 +35,7 @@ export const generateCerts = () => {
 		},
 		{
 			name: "organizationName",
-			value: "UDI"
+			value: "localhost"
 		}
 	]
 

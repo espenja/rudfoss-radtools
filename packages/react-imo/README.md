@@ -26,4 +26,4 @@ Anything related to the request should be attached to the `req` object. This mea
 
 ## Run dev environment
 
-The dev environment supports hot-reloading of client assets through the webpack-dev-server.
+The dev environment supports hot-reloading of client assets through the webpack-dev-server. To start the server first run `yarn dev` in a terminal in the root of this package. Once the server is up you can start the server dev-environment by launching the debugger `React-IMO`.

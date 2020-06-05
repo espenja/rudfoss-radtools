@@ -22,7 +22,7 @@
 			"name": "React-IMO",
 			"type": "node",
 			"request": "launch",
-			"args": ["${workspaceFolder}/packages/react-imo/server/src/server.ts"],
+			"args": ["${workspaceFolder}/packages/react-imo/server/src/start-dev.ts"],
 			"runtimeArgs": [
 				"-r",
 				"ts-node/register",

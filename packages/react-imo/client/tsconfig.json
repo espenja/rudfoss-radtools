@@ -4,6 +4,9 @@
 		"baseUrl": "./src",
 		"outDir": "../dist/client",
 		"target": "ESNext",
-		"module": "ESNext"
+		"module": "ESNext",
+		"paths": {
+			"features/*": ["features/*"]
+		}
 	}
 }

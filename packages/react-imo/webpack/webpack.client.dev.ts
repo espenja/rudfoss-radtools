@@ -12,9 +12,12 @@ const CACHE_ENABLED = true // Control caching for all rules/plugins and optimize
 const ROOT_FOLDER = path.resolve(__dirname, "../client")
 const SRC_FOLDER = path.resolve(ROOT_FOLDER, "src")
 const INDEX_JS_FILE = path.resolve(SRC_FOLDER, "index.render.ts")
-const INDEX_HTML_FILE = path.resolve(SRC_FOLDER, "index.html")
+const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "index.html")
 const DIST_FOLDER = path.resolve(ROOT_FOLDER, "dist-dev")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "tsconfig.json")
+
+// Fix for TsConfigPathsPlugin trying to load multiple configuration files
+process.env.TS_NODE_PROJECT = ""
 
 export default async () => {
 	const config: webpack.Configuration = {

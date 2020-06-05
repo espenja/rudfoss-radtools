@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid"
 import { AsyncMiddleware } from "utils/asyncExpress"
 
-export interface IIDMiddlewareExtendedRequest {
+export interface IIDMiddlewareRequest {
 	id: string
 }
 

@@ -4,16 +4,19 @@ import { NextFunction, Request, Response } from "express"
  * Defines a potentially async request handler that can potentially return a value to the client.
  */
 export type AsyncRequestHandler<
-	TResponseBody = any,
 	TRequest extends Request = Request,
-	TResponse extends Response = Response
+	TResponse extends Response = Response,
+	TResponseBody = any
 > = (req: TRequest, res: TResponse) => TResponseBody | Promise<TResponseBody>
 
 /**
  * Defines a potentially async middleware that is not allowed to return anything.
  * `next()` is called automatically.
  */
-export type AsyncMiddleware = AsyncRequestHandler<void>
+export type AsyncMiddleware<
+	TRequest extends Request = Request,
+	TResponse extends Response = Response
+> = AsyncRequestHandler<TRequest, TResponse, void>
 
 /**
  * Creates a normal express request handler from an async function.
@@ -25,17 +28,19 @@ export type AsyncMiddleware = AsyncRequestHandler<void>
  * @param handler
  */
 export const asyncHandler = <
-	TResponseBody = any,
 	TRequest extends Request = Request,
-	TResponse extends Response = Response
+	TResponse extends Response = Response,
+	TResponseBody = any
 >(
-	handler: AsyncRequestHandler<TResponseBody, TRequest, TResponse>
-) => async (req: TRequest, res: TResponse, next: NextFunction) => {
+	handler: AsyncRequestHandler<TRequest, TResponse, TResponseBody>
+) => async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const handlerResponse = await handler(req, res)
+		const handlerResponse = await handler(req as TRequest, res as TResponse)
 		if (handlerResponse === undefined) {
 			next()
+			return
 		}
+		res.send(handlerResponse)
 	} catch (error) {
 		next(error)
 	}

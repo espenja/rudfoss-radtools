@@ -9,14 +9,31 @@
 			"type": "node",
 			"request": "launch",
 			"runtimeArgs": [
-			  "--inspect-brk",
-			  "${workspaceRoot}/node_modules/jest/bin/jest.js",
-			  "--runInBand"
+				"--inspect-brk",
+				"${workspaceRoot}/node_modules/jest/bin/jest.js",
+				"--runInBand"
 			],
 			"cwd": "${fileDirname}",
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen",
 			"port": 9229
+		},
+		{
+			"name": "React-IMO",
+			"type": "node",
+			"request": "launch",
+			"args": ["${workspaceFolder}/packages/react-imo/server/src/server.ts"],
+			"runtimeArgs": [
+				"-r",
+				"ts-node/register",
+				"-r",
+				"tsconfig-paths/register"
+			],
+			"cwd": "${workspaceFolder}/packages/react-imo/server/src",
+			"env": {
+				"NODE_ENV": "development",
+				"TS_NODE_PROJECT": "${workspaceFolder}/packages/react-imo/server/tsconfig.json"
+			}
 		}
 	]
 }

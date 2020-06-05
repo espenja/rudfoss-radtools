@@ -1,0 +1,9 @@
+{
+	"extends": "../../../tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "./src",
+		"outDir": "../dist/server",
+		"target": "ESNext",
+		"module": "CommonJS"
+	}
+}

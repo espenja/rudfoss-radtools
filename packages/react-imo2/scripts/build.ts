@@ -44,7 +44,7 @@ const buildServer = async () => {
 const start = async () => {
 	await Promise.all([buildClient(), buildSSR(), buildServer()])
 	await movePath(
-		path.join(DIST_DIR, "client/index.html"),
+		path.join(DIST_DIR, "public/index.html"),
 		path.join(DIST_DIR, "index.html")
 	)
 	console.log("done")

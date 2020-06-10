@@ -7,10 +7,11 @@ import { ISSRProps, TSSR } from "server/TSSR"
 const Container: React.FC<ISSRProps> = ({
 	context,
 	location = "/",
-	forceError
+	serverError,
+	clientError
 }) => (
 	<StaticRouter location={location} context={context}>
-		<App forceError={forceError} />
+		<App forceError={serverError || clientError} />
 	</StaticRouter>
 )
 

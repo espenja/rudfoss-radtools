@@ -3,7 +3,8 @@ import { StaticRouterContext } from "react-router"
 export type ISSRContext = StaticRouterContext
 
 export interface ISSRProps {
-	forceError?: boolean
+	serverError?: boolean
+	clientError?: boolean
 	context: ISSRContext
 	location?: string
 }

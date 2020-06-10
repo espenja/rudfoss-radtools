@@ -15,22 +15,38 @@ const embedApp = (page: CheerioStatic, appContent: string) => {
 	page("#app").html(appContent)
 }
 
-const renderApp = async (req: Request, appPath: string, hot = false) => {
+const renderApp = async (
+	req: Request,
+	appPath: string,
+	hot = false,
+	serverError = false
+) => {
 	const ssrApp: TSSR = (hot ? hotRequire(appPath) : require(appPath)).default
 	const context: ISSRContext = {}
 	let appContent = ""
 
 	try {
-		appContent = ssrApp({ context, location: req.url })
+		appContent = ssrApp({ context, location: req.url, serverError })
 	} catch (error) {
+		context.statusCode = 500
 		err(error)
-		appContent = ssrApp({ context, location: req.url, forceError: true })
+		appContent = ssrApp({
+			context,
+			location: req.url,
+			clientError: true,
+			serverError
+		})
 	}
 
 	return {
 		context,
 		appContent
 	}
+}
+const renderHtml = async (indexHTMLPath: string, appContent: string) => {
+	const page = await getHtml(indexHTMLPath)
+	embedApp(page, appContent)
+	return page.html()
 }
 
 interface ISSROptions {
@@ -52,14 +68,21 @@ export const render = ({
 			return
 		}
 
-		const page = await getHtml(indexHTMLPath)
-		embedApp(page, appContent)
-		const content = page.html()
+		const content = await renderHtml(indexHTMLPath, appContent)
 
 		const status = context.statusCode || 200
+		throw new Error("Doink")
 		log(`SSR Response ${status} ${req.url}`)
 		res.status(status).send(content)
 	} catch (error) {
-		next(error)
+		err(error)
+		try {
+			const { appContent } = await renderApp(req, ssrAppPath, hot)
+			const content = await renderHtml(indexHTMLPath, appContent)
+			res.status(500).send(content)
+		} catch (secondError) {
+			err(secondError)
+			next(secondError)
+		}
 	}
 }

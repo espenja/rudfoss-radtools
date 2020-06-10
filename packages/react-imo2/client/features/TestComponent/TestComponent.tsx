@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { concatUrls } from "utilities/generic/concatUrls"
 
-export const Test: React.FC = () => {
+export const TestComponent: React.FC = () => {
 	const [a, setA] = useState("foo")
 	const [b, setB] = useState("bar")
 	return (
@@ -15,4 +15,4 @@ export const Test: React.FC = () => {
 	)
 }
 
-export default Test
+export default TestComponent

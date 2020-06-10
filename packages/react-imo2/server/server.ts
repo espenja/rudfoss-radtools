@@ -19,10 +19,10 @@ const start = async () => {
 		req.config = next()
 	})
 
-	app.use(express.static(config.staticPath))
+	app.use(express.static(config.staticPath, { index: false }))
 
 	app.get(
-		"/",
+		"*",
 		render({
 			indexHTMLPath: config.ssr.indexHTMLPath,
 			ssrAppPath: config.ssr.appPath,

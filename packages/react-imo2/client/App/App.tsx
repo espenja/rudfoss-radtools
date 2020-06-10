@@ -1,11 +1,12 @@
 import React from "react"
-import Test from "./Test"
+import Routes from "features/Routes"
+import Nav from "features/Nav"
 
 export const App: React.FC = () => {
 	return (
 		<>
-			<h1>Hello world</h1>
-			<Test />
+			<Nav />
+			<Routes />
 		</>
 	)
 }

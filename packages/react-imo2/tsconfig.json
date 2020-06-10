@@ -4,10 +4,10 @@
 		"target": "ES2019",
 		"module": "commonjs",
 		"paths": {
-			"client/*": ["client/src/*"],
-			"server/*": ["server/src/*"],
+			"client/*": ["client/*"],
+			"server/*": ["server/*"],
 			"utils/*": ["utils/*"],
-			"features/*": ["client/src/features/*"]
+			"features/*": ["client/features/*"]
 		},
 
 		// From parent JSON

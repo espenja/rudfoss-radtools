@@ -7,7 +7,7 @@ import TerserPlugin from "terser-webpack-plugin"
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
 const ROOT_FOLDER = path.resolve(__dirname, "../client")
-const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.ssr.ts")
+const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.ssr.tsx")
 const DIST_FOLDER = path.resolve(__dirname, "../dist")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "../tsconfig.json")
 

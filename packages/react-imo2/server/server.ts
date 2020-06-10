@@ -12,7 +12,7 @@ const start = async () => {
 		"*",
 		render({
 			indexHTMLPath: path.resolve(__dirname, "../client/.cache/index.html"),
-			ssrAppRender: require("../client/index.ssr").render
+			ssrAppPath: path.resolve(__dirname, "../client/index.ssr")
 		})
 	)
 

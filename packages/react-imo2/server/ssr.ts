@@ -13,15 +13,16 @@ const embedApp = (page: CheerioStatic, appContent: string) => {
 
 interface ISSROptions {
 	indexHTMLPath: string
-	ssrAppRender: () => NodeJS.ReadableStream
+	ssrAppPath: string
 }
 
 export const render = ({
 	indexHTMLPath,
-	ssrAppRender
+	ssrAppPath
 }: ISSROptions): RequestHandler => async (req, res, next) => {
 	try {
-		const appContent = await streamToString(ssrAppRender())
+		const ssrApp = require(ssrAppPath).render
+		const appContent = await streamToString(ssrApp())
 		const page = await getHtml(indexHTMLPath)
 		embedApp(page, appContent)
 		const content = page.html()

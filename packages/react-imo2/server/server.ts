@@ -2,23 +2,31 @@ import express from "express"
 import { createHttpServer } from "./createHttpServer"
 import { render } from "./ssr"
 import path from "path"
+import { logger } from "utils/logger"
+import { getConfig } from "./getConfig"
+
+const { log, err } = logger("server")
 
 const start = async () => {
-	console.log("init")
+	log("init")
 
+	const config = getConfig()
+	log(config)
 	const app = express()
 
+	app.use((req: any, res, next) => {
+		req.logger = { logger, ...logger("req") }
+		req.config = config
+		req.config = next()
+	})
+
+	app.use(express.static(config.staticPath))
+
 	app.get(
-		"*",
+		"/",
 		render({
-			indexHTMLPath: path.resolve(
-				__dirname,
-				process.env.SSR_HTML_PATH || "../client/.cache/index.html"
-			),
-			ssrAppPath: path.resolve(
-				__dirname,
-				process.env.SSR_APP_PATH || "../client/.cache/index.ssr.js"
-			),
+			indexHTMLPath: config.ssr.indexHTMLPath,
+			ssrAppPath: config.ssr.appPath,
 			hot: true
 		})
 	)
@@ -28,10 +36,10 @@ const start = async () => {
 		secure: process.env.NODE_ENV !== "production"
 	})
 
-	console.log("ready")
+	log("ready")
 }
 
 start().catch((e) => {
-	console.error(e)
+	err(e)
 	process.exit(1)
 })

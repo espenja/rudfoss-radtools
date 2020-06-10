@@ -90,8 +90,9 @@ export default async () => {
 				"process.env.NODE_ENV": JSON.stringify("production"),
 
 				// Paths are relative to the server.js file
+				"process.env.STATIC_PATH": `"./client"`,
 				"process.env.SSR_APP_PATH": `"./index.ssr.js"`,
-				"process.env.SSR_HTML_PATH": `"./client/index.html"`
+				"process.env.SSR_HTML_PATH": `"./index.html"`
 			})
 		]
 	}

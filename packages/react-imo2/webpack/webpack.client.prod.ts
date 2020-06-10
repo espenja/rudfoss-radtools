@@ -12,6 +12,7 @@ const ROOT_FOLDER = path.resolve(__dirname, "../client")
 const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.ts")
 const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "index.html")
 const DIST_FOLDER = path.resolve(__dirname, "../dist/client")
+const DIST_INDEX_FILE = path.resolve(__dirname, "../dist/index.html")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "../tsconfig.json")
 
 // Fix for TsConfigPathsPlugin trying to load multiple configuration files

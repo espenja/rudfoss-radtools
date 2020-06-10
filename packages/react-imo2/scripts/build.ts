@@ -2,6 +2,10 @@ import webpack from "webpack"
 import clientConfig from "../webpack/webpack.client.prod"
 import ssrConfig from "../webpack/webpack.ssr.prod"
 import serverConfig from "../webpack/webpack.server.prod"
+import { movePath } from "../utils/node/movePath"
+import path from "path"
+
+const DIST_DIR = path.resolve(__dirname, "../dist")
 
 const buildClient = async () => {
 	const config = await clientConfig()
@@ -38,7 +42,11 @@ const buildServer = async () => {
 }
 
 const start = async () => {
-	Promise.all([buildClient(), buildSSR(), buildServer()])
+	await Promise.all([buildClient(), buildSSR(), buildServer()])
+	await movePath(
+		path.join(DIST_DIR, "client/index.html"),
+		path.join(DIST_DIR, "index.html")
+	)
 	console.log("done")
 }
 

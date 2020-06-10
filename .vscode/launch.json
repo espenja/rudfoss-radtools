@@ -48,7 +48,8 @@
 			"cwd": "${workspaceFolder}/packages/react-imo2",
 			"env": {
 				"TS_NODE_PROJECT": "${workspaceFolder}/packages/react-imo2/tsconfig.json",
-				"TS_NODE_TRANSPILE_ONLY": "true"
+				"TS_NODE_TRANSPILE_ONLY": "true",
+				"DEBUG": "*"
 			}
 		}
 	]

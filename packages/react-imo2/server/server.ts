@@ -12,7 +12,7 @@ const start = async () => {
 		"*",
 		render({
 			indexHTMLPath: path.resolve(__dirname, "../client/.cache/index.html"),
-			ssrAppPath: path.resolve(__dirname, "../client/.cache/index.ssr")
+			ssrAppPath: path.resolve(__dirname, "../client/.cache/index.ssr.js")
 		})
 	)
 

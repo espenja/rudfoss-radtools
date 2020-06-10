@@ -62,7 +62,7 @@ export default async () => {
 										{
 											useBuiltIns: "usage",
 											corejs: { version: 3, proposals: true },
-											debug: true
+											debug: false
 										}
 									],
 									"@babel/preset-typescript",
@@ -79,8 +79,8 @@ export default async () => {
 			]
 		},
 		plugins: [
-			new ForkTSCheckerPlugin({
-				tsconfig: TS_CONFIG_PATH
+			new webpack.optimize.LimitChunkCountPlugin({
+				maxChunks: 1
 			}),
 			new DefinePlugin({
 				"process.env.NODE_ENV": JSON.stringify("development")

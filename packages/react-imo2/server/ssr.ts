@@ -21,7 +21,7 @@ export const render = ({
 	ssrAppPath
 }: ISSROptions): RequestHandler => async (req, res, next) => {
 	try {
-		const ssrApp = require(ssrAppPath).render
+		const ssrApp = require(ssrAppPath).default
 		const appContent = await streamToString(ssrApp())
 		const page = await getHtml(indexHTMLPath)
 		embedApp(page, appContent)

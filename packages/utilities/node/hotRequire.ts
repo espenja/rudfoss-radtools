@@ -1,4 +1,8 @@
 import chokidar, { FSWatcher } from "chokidar"
+import debug from "debug"
+
+const log = debug("hotRequire")
+log.log = console.log.bind(console)
 
 const watchers: Map<string, FSWatcher> = new Map()
 
@@ -16,7 +20,9 @@ const __safeRequire =
 export const hotRequire = (path: string) => {
 	if (!watchers.has(path)) {
 		const watcher = chokidar.watch(path)
+		log(`require ${path}`)
 		watcher.on("change", () => {
+			log(`flush ${path}`)
 			delete __safeRequire.cache[path]
 		})
 		watchers.set(path, watcher)

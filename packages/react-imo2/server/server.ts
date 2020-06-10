@@ -1,7 +1,6 @@
 import express from "express"
 import { createHttpServer } from "./createHttpServer"
 import { render } from "./ssr"
-import path from "path"
 import { logger } from "utils/logger"
 import { getConfig } from "./getConfig"
 

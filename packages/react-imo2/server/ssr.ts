@@ -3,6 +3,7 @@ import { readUTFFile } from "utilities/node/readFile"
 import cheerio from "cheerio"
 import { hotRequire } from "utilities/node/hotRequire"
 import { TSSR, ISSRContext } from "./TSSR"
+import { SheetsRegistry, createGenerateId } from "react-jss"
 
 import { logger } from "utils/logger"
 const { log, err } = logger("ssr")
@@ -24,23 +25,35 @@ const renderApp = async (
 	const ssrApp: TSSR = (hot ? hotRequire(appPath) : require(appPath)).default
 	const context: ISSRContext = {}
 	let appContent = ""
+	let sheets = new SheetsRegistry()
+	const generateId = createGenerateId()
 
 	try {
-		appContent = ssrApp({ context, location: req.url, serverError })
+		appContent = ssrApp({
+			context,
+			location: req.url,
+			serverError,
+			sheets,
+			generateId
+		})
 	} catch (error) {
+		sheets = new SheetsRegistry()
 		context.statusCode = 500
 		err(error)
 		appContent = ssrApp({
 			context,
 			location: req.url,
 			clientError: true,
-			serverError
+			serverError,
+			sheets,
+			generateId
 		})
 	}
 
 	return {
 		context,
-		appContent
+		appContent,
+		sheets
 	}
 }
 const renderHtml = async (indexHTMLPath: string, appContent: string) => {
@@ -62,7 +75,12 @@ export const render = ({
 }: ISSROptions): RequestHandler => async (req, res, next) => {
 	try {
 		log(`SSR app (${hot ? "hot" : "cold"}) ${ssrAppPath}`)
-		const { appContent, context } = await renderApp(req, ssrAppPath, hot)
+		const { appContent, context, sheets } = await renderApp(
+			req,
+			ssrAppPath,
+			hot
+		)
+		log(sheets.toString())
 		if (context.url) {
 			res.redirect(context.url)
 			return

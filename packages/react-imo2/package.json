@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "rimraf client/.cache && cross-env TS_NODE_PROJECT=tsconfig.json webpack-dev-server --config webpack/webpack.client.dev.ts --progress --hot"
+  },
   "dependencies": {
     "@types/node": "^14.0.6",
     "@typescript-eslint/eslint-plugin": "^3.0.2",

@@ -2,5 +2,11 @@
   "name": "utilities",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.4.0",
+    "fast-glob": "^3.2.2",
+    "fs-extra": "^9.0.1",
+    "node-forge": "^0.9.1"
+  }
 }

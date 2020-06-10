@@ -3,11 +3,11 @@ import path from "path"
 import http from "http"
 import https from "https"
 
-import { generateCerts } from "utils/generateCerts"
-import { pathExists } from "utils/node/pathExists"
-import { readUTFFile } from "utils/node/readFile"
-import { ensureDir } from "utils/node/ensureDir"
-import { writeUTFFile } from "utils/node/writeFile"
+import { generateCerts } from "utilities/node/generateCerts"
+import { pathExists } from "utilities/node/pathExists"
+import { readUTFFile } from "utilities/node/readFile"
+import { ensureDir } from "utilities/node/ensureDir"
+import { writeUTFFile } from "utilities/node/writeFile"
 
 const getCertificates = async (
 	cacheDir?: string

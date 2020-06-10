@@ -1,8 +1,8 @@
 import { RequestHandler } from "express"
-import { streamToString } from "utils/node/streamToString"
-import { readUTFFile } from "utils/node/readFile"
+import { streamToString } from "utilities/node/streamToString"
+import { readUTFFile } from "utilities/node/readFile"
 import cheerio from "cheerio"
-import { hotRequire } from "utils/node/hotRequire"
+import { hotRequire } from "utilities/node/hotRequire"
 
 const getHtml = async (htmlPath: string) => {
 	const html = await readUTFFile(htmlPath)

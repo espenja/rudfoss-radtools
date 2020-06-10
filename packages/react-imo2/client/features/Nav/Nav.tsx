@@ -15,6 +15,9 @@ export const Nav: React.FC = () => {
 					<Link to="/async2">Async2</Link>
 				</li>
 				<li>
+					<Link to="/throw">Test Throw</Link>
+				</li>
+				<li>
 					<Link to="/missingroute">Missing route</Link>
 				</li>
 			</ul>

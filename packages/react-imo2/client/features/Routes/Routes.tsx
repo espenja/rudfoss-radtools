@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom"
 import TestComponent from "features/TestComponent"
 import AsyncTest from "features/AsyncTest"
 import NotFound from "../NotFound"
+import Thrower from "../Thrower"
 
 export const Routes: React.FC = () => (
 	<Switch>
@@ -14,6 +15,9 @@ export const Routes: React.FC = () => (
 		</Route>
 		<Route path="/async2">
 			<Redirect to="/async" />
+		</Route>
+		<Route path="/throw">
+			<Thrower />
 		</Route>
 
 		<Route

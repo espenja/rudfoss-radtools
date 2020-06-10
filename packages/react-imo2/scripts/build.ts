@@ -4,8 +4,11 @@ import ssrConfig from "../webpack/webpack.ssr.prod"
 import serverConfig from "../webpack/webpack.server.prod"
 import { movePath } from "utilities/node/movePath"
 import path from "path"
+import { copyFile } from "utilities/node/copyFile"
 
 const DIST_DIR = path.resolve(__dirname, "../dist")
+const DIST_PUBLIC_DIR = path.resolve(__dirname, "../dist/public")
+const PUBLIC_DIR = path.resolve(__dirname, "../public")
 
 const buildClient = async () => {
 	const config = await clientConfig()
@@ -40,14 +43,20 @@ const buildServer = async () => {
 		})
 	})
 }
+const copyOrMove = async (source: string, dest: string, move = false) => {
+	console.log(`${move ? "MOVE" : "COPY"}: ${source} -> ${dest}`)
+	return move ? movePath(source, dest) : copyFile(source, dest)
+}
 
 const start = async () => {
 	await Promise.all([buildClient(), buildSSR(), buildServer()])
-	await movePath(
+	await copyOrMove(PUBLIC_DIR, path.join(DIST_PUBLIC_DIR))
+	await copyOrMove(
 		path.join(DIST_DIR, "public/index.html"),
-		path.join(DIST_DIR, "index.html")
+		path.join(DIST_DIR, "index.html"),
+		true
 	)
-	console.log("done")
+	console.log("Build completed")
 }
 
 start().catch((error) => {

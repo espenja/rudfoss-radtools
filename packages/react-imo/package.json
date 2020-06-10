@@ -6,6 +6,7 @@
   "description": "React In-My-Opinion is an opinionated, server and client for react built on node",
   "scripts": {
     "dev": "rimraf ./client/dist-dev && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack-dev-server --config webpack/webpack.client.dev.ts --progress --hot",
+    "ssr": "rimraf ./client/dist-ssr && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack --config webpack/webpack.ssr.dev.ts --progress",
     "build:server": "rimraf ./dist/server && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack --config webpack/webpack.server.prod.ts --progress",
     "build": "rimraf ./dist && yarn build:server"
   },

@@ -19,6 +19,22 @@
 			"port": 9229
 		},
 		{
+			"name": "TS file",
+			"type": "node",
+			"request": "launch",
+			"args": ["${fileBasename}"],
+			"runtimeArgs": [
+				"-r",
+				"ts-node/register",
+				"-r",
+				"tsconfig-paths/register"
+			],
+			"cwd": "${fileDirname}",
+			"env": {
+				"NODE_ENV": "development"
+			}
+		},
+		{
 			"name": "React-IMO",
 			"type": "node",
 			"request": "launch",

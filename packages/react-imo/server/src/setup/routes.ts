@@ -1,9 +1,7 @@
 import { Application } from "express"
 import { asyncHandler, AsyncRequestHandler } from "utils/asyncExpress"
 import { ExtendedRequest } from "./globalMiddleware"
-import { render } from "../ssr/index.ssr"
-
-const rootDir = process.env.ROOT_DIR
+import { render } from "../../../client/src/index.ssr"
 
 const handle = (handler: AsyncRequestHandler<ExtendedRequest>) =>
 	asyncHandler(handler)

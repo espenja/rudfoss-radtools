@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"target": "ESNext",
+		"module": "commonjs",
+		"paths": {
+			"client/*": ["client/src/*"],
+			"server/*": ["server/src/*"],
+			"utils/*": ["utils/*"],
+			"features/*": ["client/src/features/*"]
+		},
+
+		// From parent JSON
+		"jsx": "react",
+		"sourceMap": true,
+		"downlevelIteration": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
+		"forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+	}
+}

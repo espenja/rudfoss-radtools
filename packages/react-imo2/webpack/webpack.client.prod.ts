@@ -1,13 +1,17 @@
 import path from "path"
 import webpack, { DefinePlugin } from "webpack"
 
+import ForkTSCheckerPlugin from "fork-ts-checker-webpack-plugin"
+import HtmlPlugin from "html-webpack-plugin"
 import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin"
+import TerserPlugin from "terser-webpack-plugin"
 
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
 const ROOT_FOLDER = path.resolve(__dirname, "../client")
-const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.ssr.ts")
-const DIST_FOLDER = path.resolve(ROOT_FOLDER, ".cache")
+const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.ts")
+const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "index.html")
+const DIST_FOLDER = path.resolve(__dirname, "../dist/client")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "../tsconfig.json")
 
 // Fix for TsConfigPathsPlugin trying to load multiple configuration files
@@ -15,20 +19,38 @@ process.env.TS_NODE_PROJECT = ""
 
 export default async () => {
 	const config: webpack.Configuration = {
-		mode: "development",
-		target: "node",
+		mode: "production",
+		target: "web",
 		devtool: "source-map",
 
-		entry: [INDEX_JS_FILE],
+		entry: [
+			// https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import#working-with-webpack-and-babel-preset-env
+			// "core-js/modules/es.promise",
+			// "core-js/modules/es.array.iterator",
 
-		node: {
-			__dirname: false
+			INDEX_JS_FILE
+		],
+
+		optimization: {
+			namedChunks: true,
+			runtimeChunk: "multiple",
+			minimize: true,
+			minimizer: [
+				new TerserPlugin({
+					sourceMap: true,
+					cache: CACHE_ENABLED
+				})
+			],
+			splitChunks: {
+				chunks: "all"
+			}
 		},
 
 		output: {
-			filename: "index.ssr.js",
-			path: DIST_FOLDER,
-			libraryTarget: "commonjs2"
+			// https://medium.com/@sahilkkrazy/hash-vs-chunkhash-vs-contenthash-e94d38a32208
+			filename: "js/[name]-[contenthash].js",
+			chunkFilename: "js/[name]-[contenthash].js",
+			path: DIST_FOLDER
 		},
 
 		resolve: {
@@ -58,7 +80,7 @@ export default async () => {
 										{
 											useBuiltIns: "usage",
 											corejs: { version: 3, proposals: true },
-											debug: false
+											debug: true
 										}
 									],
 									"@babel/preset-typescript",
@@ -75,11 +97,22 @@ export default async () => {
 			]
 		},
 		plugins: [
-			new webpack.optimize.LimitChunkCountPlugin({
-				maxChunks: 1
+			new HtmlPlugin({
+				template: INDEX_HTML_FILE,
+				minify: {
+					collapseBooleanAttributes: true,
+					collapseWhitespace: true,
+					keepClosingSlash: true,
+					removeRedundantAttributes: true,
+					removeStyleLinkTypeAttributes: true,
+					useShortDoctype: true
+				}
+			}),
+			new ForkTSCheckerPlugin({
+				tsconfig: TS_CONFIG_PATH
 			}),
 			new DefinePlugin({
-				"process.env.NODE_ENV": JSON.stringify("development")
+				"process.env.NODE_ENV": JSON.stringify("production")
 			})
 		]
 	}

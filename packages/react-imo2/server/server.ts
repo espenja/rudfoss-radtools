@@ -11,8 +11,14 @@ const start = async () => {
 	app.get(
 		"*",
 		render({
-			indexHTMLPath: path.resolve(__dirname, "../client/.cache/index.html"),
-			ssrAppPath: path.resolve(__dirname, "../client/.cache/index.ssr.js"),
+			indexHTMLPath: path.resolve(
+				__dirname,
+				process.env.SSR_HTML_PATH || "../client/.cache/index.html"
+			),
+			ssrAppPath: path.resolve(
+				__dirname,
+				process.env.SSR_APP_PATH || "../client/.cache/index.ssr.js"
+			),
 			hot: true
 		})
 	)

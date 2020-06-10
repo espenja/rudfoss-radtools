@@ -2,12 +2,13 @@ import path from "path"
 import webpack, { DefinePlugin } from "webpack"
 
 import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin"
+import TerserPlugin from "terser-webpack-plugin"
 
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
 const ROOT_FOLDER = path.resolve(__dirname, "../client")
 const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.ssr.ts")
-const DIST_FOLDER = path.resolve(ROOT_FOLDER, ".cache")
+const DIST_FOLDER = path.resolve(__dirname, "../dist")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "../tsconfig.json")
 
 // Fix for TsConfigPathsPlugin trying to load multiple configuration files
@@ -15,7 +16,7 @@ process.env.TS_NODE_PROJECT = ""
 
 export default async () => {
 	const config: webpack.Configuration = {
-		mode: "development",
+		mode: "production",
 		target: "node",
 		devtool: "source-map",
 
@@ -40,6 +41,17 @@ export default async () => {
 			]
 		},
 
+		optimization: {
+			runtimeChunk: false,
+			minimize: true,
+			minimizer: [
+				new TerserPlugin({
+					sourceMap: true,
+					cache: CACHE_ENABLED
+				})
+			]
+		},
+
 		module: {
 			rules: [
 				{
@@ -58,7 +70,7 @@ export default async () => {
 										{
 											useBuiltIns: "usage",
 											corejs: { version: 3, proposals: true },
-											debug: false
+											debug: true
 										}
 									],
 									"@babel/preset-typescript",
@@ -79,7 +91,7 @@ export default async () => {
 				maxChunks: 1
 			}),
 			new DefinePlugin({
-				"process.env.NODE_ENV": JSON.stringify("development")
+				"process.env.NODE_ENV": JSON.stringify("production")
 			})
 		]
 	}

@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:ssr": "cross-env TS_NODE_PROJECT=tsconfig.json webpack --config webpack/webpack.ssr.dev.ts --watch",
-    "dev": "cross-env TS_NODE_PROJECT=tsconfig.json webpack-dev-server --config webpack/webpack.client.dev.ts --progress --hot"
+    "dev": "ts-node scripts/dev.ts"
   },
   "dependencies": {
     "@types/node": "^14.0.6",

@@ -82,7 +82,7 @@ export default async () => {
 										{
 											useBuiltIns: "usage",
 											corejs: { version: 3, proposals: true },
-											debug: true
+											debug: false
 										}
 									],
 									"@babel/preset-typescript",

@@ -38,17 +38,16 @@
 			"name": "React-IMO",
 			"type": "node",
 			"request": "launch",
-			"args": ["${workspaceFolder}/packages/react-imo/server/src/start-dev.ts"],
+			"args": ["${workspaceFolder}/packages/react-imo2/server/server.ts"],
 			"runtimeArgs": [
 				"-r",
 				"ts-node/register",
 				"-r",
 				"tsconfig-paths/register"
 			],
-			"cwd": "${workspaceFolder}/packages/react-imo",
+			"cwd": "${workspaceFolder}/packages/react-imo2",
 			"env": {
-				"NODE_ENV": "development",
-				"TS_NODE_PROJECT": "${workspaceFolder}/packages/react-imo/tsconfig.json",
+				"TS_NODE_PROJECT": "${workspaceFolder}/packages/react-imo2/tsconfig.json",
 				"TS_NODE_TRANSPILE_ONLY": "true"
 			}
 		}

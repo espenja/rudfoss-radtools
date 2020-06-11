@@ -45,7 +45,7 @@ export const render = ({
 }: ISSROptions): RequestHandler => async (req, res, next) => {
 	let appContent: string
 	let styleSheet: string
-	let props: ISSRProps = {
+	const props: ISSRProps = {
 		context: {},
 		location: req.url
 	}

@@ -3,7 +3,7 @@ import { renderToString } from "react-dom/server"
 import App from "./App"
 import { StaticRouter } from "react-router-dom"
 import { ISSRProps, TSSR } from "./TSSR"
-import { JssProvider, SheetsRegistry, createGenerateId } from "react-jss"
+import { SheetsRegistry, createGenerateId } from "react-jss"
 
 interface ISSRContainerProps extends ISSRProps {
 	sheets: SheetsRegistry
@@ -14,14 +14,11 @@ const Container: React.FC<ISSRContainerProps> = ({
 	context,
 	location = "/",
 	sheets,
-	generateId,
 	error
 }) => (
-	<JssProvider registry={sheets} generateId={generateId}>
-		<StaticRouter location={location} context={context}>
-			<App error={error} />
-		</StaticRouter>
-	</JssProvider>
+	<StaticRouter location={location} context={context}>
+		<App error={error} sheets={sheets} />
+	</StaticRouter>
 )
 
 const render: TSSR = (props) => {

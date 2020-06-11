@@ -5,10 +5,10 @@ import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
-const ROOT_FOLDER = path.resolve(__dirname, "../client")
-const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.ssr.tsx")
-const DIST_FOLDER = path.resolve(ROOT_FOLDER, ".cache")
-const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "../tsconfig.json")
+const ROOT_FOLDER = path.resolve(__dirname, "../")
+const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "./ssr/gateways/startupSSR.tsx")
+const DIST_FOLDER = path.resolve(ROOT_FOLDER, "./client/.cache")
+const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "./tsconfig.json")
 
 // Fix for TsConfigPathsPlugin trying to load multiple configuration files
 process.env.TS_NODE_PROJECT = ""

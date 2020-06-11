@@ -1,21 +1,31 @@
 import React from "react"
 import { hot } from "react-hot-loader/root"
 import { render, hydrate } from "react-dom"
-import App from "./App"
+import Bootstrap from "./Bootstrap"
 import { BrowserRouter } from "react-router-dom"
 
 const Container: React.FC = () => {
-	const Root = hot(App)
+	const Root = hot(Bootstrap)
+	const state: any = JSON.parse(
+		document.getElementById("appstate")?.innerHTML || "{}"
+	)
 	return (
 		<BrowserRouter>
-			<Root />
+			<Root state={state} />
 		</BrowserRouter>
 	)
 }
 
 const container = document.getElementById("app")
+if (!container) {
+	throw new Error(
+		"Unable to locate div#app. Make sure the HTML is properly formatted"
+	)
+}
 if (container && container.children.length > 0) {
+	console.log("hydrate")
 	hydrate(<Container />, container)
 } else {
+	console.log("render")
 	render(<Container />, container)
 }

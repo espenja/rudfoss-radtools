@@ -17,12 +17,13 @@ export class RootErrorCatcher extends React.PureComponent<
 	IErrorBoundaryProps,
 	IErrorBoundaryState
 > {
+	/**
+	 * Used during server side rendering to avoid "memory leak warning"
+	 */
+	private hasError = false
+
 	public state: IErrorBoundaryState = {
 		hasError: false
-	}
-
-	public static getDerivedStateFromError() {
-		return { hasError: true }
 	}
 
 	public componentDidCatch(error: any) {
@@ -49,15 +50,16 @@ export class RootErrorCatcher extends React.PureComponent<
 
 	public render() {
 		if (this.props.error) {
-			this.renderError(this.props.error)
+			return this.renderError(this.props.error)
 		}
 		if (this.state.hasError) {
-			this.renderDefaultError()
+			return this.renderDefaultError()
 		}
 
 		try {
 			return this.props.children
 		} catch (error) {
+			this.hasError = true
 			return this.renderError(error)
 		}
 	}

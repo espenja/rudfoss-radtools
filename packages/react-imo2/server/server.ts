@@ -1,8 +1,9 @@
 import express from "express"
 import { createHttpServer } from "./createHttpServer"
-import { render } from "./ssr"
 import { logger } from "utils/logger"
 import { getConfig } from "./getConfig"
+import { ssrMiddleware } from "ssr/ssrMiddleware"
+import { ssrRender } from "ssr/ssrRender"
 
 const { log, err } = logger("server")
 
@@ -18,17 +19,15 @@ const start = async () => {
 		req.config = config
 		req.config = next()
 	})
-
-	app.use(express.static(config.staticPath, { index: false }))
-
-	app.get(
-		"*",
-		render({
-			indexHTMLPath: config.ssr.indexHTMLPath,
-			ssrAppPath: config.ssr.appPath,
-			hot: true
+	app.use(
+		ssrMiddleware({
+			appRootFilePath: config.ssr.appPath,
+			indexHTMLPath: config.ssr.indexHTMLPath
 		})
 	)
+
+	app.use(express.static(config.staticPath, { index: false }))
+	app.get("*", ssrRender)
 
 	await createHttpServer({
 		expressApp: app,

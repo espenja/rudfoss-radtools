@@ -1,12 +1,13 @@
 import React from "react"
-import { RenderableError } from "./RenderableError"
+import { IRenderableError, RenderableError } from "ssr/RenderableError"
+import { withRouter, RouteComponentProps } from "react-router-dom"
 
-interface IErrorBoundaryProps {
-	error?: RenderableError | Error
+interface IErrorBoundaryProps extends RouteComponentProps {
+	error?: IRenderableError
 }
 
 interface IErrorBoundaryState {
-	hasError: boolean
+	error?: RenderableError
 }
 
 /**
@@ -22,17 +23,20 @@ export class RootErrorCatcher extends React.PureComponent<
 	 */
 	private hasError = false
 
-	public state: IErrorBoundaryState = {
-		hasError: false
+	public state: IErrorBoundaryState = {}
+
+	public static getDerivedStateFromError(error?: Error) {
+		return {
+			error: error
+				? RenderableError.fromError(error)
+				: RenderableError.newGeneric()
+		}
 	}
 
 	public componentDidCatch(error: any) {
 		console.error(error)
 	}
 
-	private renderDefaultError() {
-		return this.renderError(RenderableError.newGeneric())
-	}
 	private renderError(error: RenderableError | Error) {
 		const realError =
 			error instanceof RenderableError
@@ -50,10 +54,10 @@ export class RootErrorCatcher extends React.PureComponent<
 
 	public render() {
 		if (this.props.error) {
-			return this.renderError(this.props.error)
+			return this.renderError(RenderableError.deserialize(this.props.error))
 		}
-		if (this.state.hasError) {
-			return this.renderDefaultError()
+		if (this.state.error) {
+			return this.renderError(this.state.error)
 		}
 
 		try {
@@ -65,4 +69,4 @@ export class RootErrorCatcher extends React.PureComponent<
 	}
 }
 
-export default RootErrorCatcher
+export default withRouter(RootErrorCatcher)

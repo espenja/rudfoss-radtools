@@ -15,7 +15,7 @@ export interface IAppProps {
 export const App: React.FC<IAppProps> = ({ state }) => {
 	useStyles()
 	return (
-		<RootErrorCatcher>
+		<RootErrorCatcher error={state?.error}>
 			<Nav />
 			<Routes />
 			{state?.ssr ? <p>Hello from server</p> : <p>Hello from client</p>}

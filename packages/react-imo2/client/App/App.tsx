@@ -1,22 +1,19 @@
 import React from "react"
 import Routes from "features/Routes"
 import Nav from "features/Nav"
-import ErrorCatcher from "client/features/ErrorCatcher"
-import { jss } from "react-jss"
-import normalizeCSSStyles from "features/GlobalStyles/normalizeCSSStyles"
+import RootErrorCatcher from "features/RootErrorCatcher"
+import { RenderableError } from "client/features/RootErrorCatcher/RenderableError"
 
-jss.createStyleSheet(normalizeCSSStyles).attach()
-
-interface IAppProps {
-	forceError?: boolean
+export interface IAppProps {
+	error?: RenderableError | Error
 }
 
-export const App: React.FC<IAppProps> = ({ forceError }) => {
+export const App: React.FC<IAppProps> = ({ error }) => {
 	return (
-		<ErrorCatcher force={forceError}>
+		<RootErrorCatcher error={error}>
 			<Nav />
 			<Routes />
-		</ErrorCatcher>
+		</RootErrorCatcher>
 	)
 }
 

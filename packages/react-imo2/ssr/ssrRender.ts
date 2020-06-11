@@ -5,9 +5,6 @@ import cheerio from "cheerio"
 import { hotRequire } from "utilities/node/hotRequire"
 import startupSSR from "./gateways/startupSSR"
 import { RenderableError } from "./RenderableError"
-import { logger } from "utils/logger"
-
-const { log } = logger("ssr")
 
 const loadHtml = async (htmlPath: string) => {
 	const html = await readUTFFile(htmlPath)
@@ -52,14 +49,11 @@ export const ssrRender: RequestHandler = async (req, res, next) => {
 			state: treq.ssrState,
 			url: treq.url
 		})
-
-		throw new Error("Test")
 		res
 			.status(context.statusCode || 200)
 			.send(renderHtml(html, appContent, styles, treq.ssrState))
 	} catch (error) {
 		treq.ssrState.error = RenderableError.fromError(error).serialize()
-		log(treq.ssrState)
 		try {
 			const { appContent, context, styles } = appRender({
 				state: treq.ssrState,

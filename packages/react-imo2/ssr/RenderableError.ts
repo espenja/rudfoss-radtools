@@ -24,6 +24,10 @@ export class RenderableError extends Error {
 		super(message)
 	}
 
+	public serialize() {
+		return RenderableError.serialize(this)
+	}
+
 	public static serialize(renderableError: RenderableError): IRenderableError {
 		return {
 			title: renderableError.title,
@@ -55,6 +59,7 @@ export class RenderableError extends Error {
 	}
 
 	public static fromError(error: Error) {
+		if (error instanceof RenderableError) return error
 		return new RenderableError(error.name, error.message, error)
 	}
 	public static newGeneric() {

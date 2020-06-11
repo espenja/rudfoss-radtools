@@ -4,11 +4,12 @@ import Nav from "features/Nav"
 import RootErrorCatcher from "features/RootErrorCatcher"
 import { createUseStyles } from "react-jss"
 import normalizeCSSStyles from "./normalizeCSSStyles"
+import { IAppState } from "./IAppState"
 
 const useStyles = createUseStyles(normalizeCSSStyles)
 
 export interface IAppProps {
-	state?: any
+	state?: IAppState
 }
 
 export const App: React.FC<IAppProps> = ({ state }) => {
@@ -17,10 +18,7 @@ export const App: React.FC<IAppProps> = ({ state }) => {
 		<RootErrorCatcher>
 			<Nav />
 			<Routes />
-			<pre>
-				<code>{`State
-${JSON.stringify(state, null, 2)}`}</code>
-			</pre>
+			{state?.ssr ? <p>Hello from server</p> : <p>Hello from client</p>}
 		</RootErrorCatcher>
 	)
 }

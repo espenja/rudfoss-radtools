@@ -8,6 +8,7 @@ export interface ISSRAppBaseState {
 	 * in turn can do with as it wishes.
 	 */
 	error?: IRenderableError
+	ssr?: boolean
 }
 export interface ISSRRequest<TAppState extends ISSRAppBaseState> {
 	/**
@@ -34,8 +35,10 @@ export interface ISSRMiddlewareOptions {
 export const ssrMiddleware = (
 	options: ISSRMiddlewareOptions
 ): RequestHandler => (req: any, res, next) => {
-	const treq: TSSRRequest<any> = req
-	treq.ssrState = {}
+	const treq: TSSRRequest<ISSRAppBaseState> = req
+	treq.ssrState = {
+		ssr: true
+	}
 	treq.ssrOptions = options
 	treq.ssrRender = () => ssrRender(req, res, next)
 	next()

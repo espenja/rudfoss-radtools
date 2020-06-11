@@ -8,11 +8,14 @@ import TerserPlugin from "terser-webpack-plugin"
 
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
-const ROOT_FOLDER = path.resolve(__dirname, "../client")
-const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "index.tsx")
-const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "index.html")
+const ROOT_FOLDER = path.resolve(__dirname, "../")
+const INDEX_JS_FILE = path.resolve(
+	ROOT_FOLDER,
+	"./ssr/gateways/startupClient.tsx"
+)
+const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "./ssr/gateways/index.html")
 const DIST_FOLDER = path.resolve(__dirname, "../dist/public")
-const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "../tsconfig.json")
+const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "./tsconfig.json")
 
 // Fix for TsConfigPathsPlugin trying to load multiple configuration files
 process.env.TS_NODE_PROJECT = ""

@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom"
 const Container: React.FC = () => {
 	const Root = hot(Bootstrap)
 	const state: any = JSON.parse(
-		document.getElementById("appstate")?.innerHTML || "{}"
+		decodeURIComponent(document.getElementById("appstate")?.innerHTML || "{}")
 	)
 	return (
 		<BrowserRouter>

@@ -48,7 +48,9 @@ export class RenderableError extends Error {
 		if (serializedRenderableError.innerError && innerError) {
 			innerError.name = serializedRenderableError.innerError.name
 			innerError.message = serializedRenderableError.innerError.message
-			innerError.stack = serializedRenderableError.innerError.stack
+			innerError.stack = JSON.stringify(
+				serializedRenderableError.innerError.stack + ""
+			)
 		}
 
 		return new RenderableError(

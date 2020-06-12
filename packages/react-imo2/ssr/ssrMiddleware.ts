@@ -39,6 +39,14 @@ export const ssrMiddleware = (
 	treq.ssrState = {
 		ssr: true
 	}
+	if (!options.appRootFilePath) {
+		next(new Error("appRootFilePath is required"))
+		return
+	}
+	if (!options.indexHTMLPath) {
+		next(new Error("indexHTMLPath is required"))
+		return
+	}
 	treq.ssrOptions = options
 	treq.ssrRender = () => ssrRender(req, res, next)
 	next()

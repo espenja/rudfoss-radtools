@@ -1,4 +1,4 @@
-import { RequestHandler } from "express"
+import { RequestHandler, NextFunction } from "express"
 import { TSSRRequest, ISSRAppBaseState } from "./ssrMiddleware"
 import { readUTFFile } from "utilities/node/readFile"
 import cheerio from "cheerio"
@@ -32,6 +32,23 @@ const renderHtml = (
 	return page.html()
 }
 
+const checkSSRMiddleware = (
+	req: TSSRRequest<ISSRAppBaseState>,
+	res: any,
+	next: NextFunction
+): boolean => {
+	try {
+		if (!req.ssrOptions)
+			throw new Error(
+				"ssrMiddleware was not registered. Add this middleware before using ssrRender."
+			)
+		return true
+	} catch (error) {
+		next(error)
+		return false
+	}
+}
+
 /**
  * Renders the application with the current state and location information.
  * Once called data is returned to the client so you should not modify the request after calling this.
@@ -41,6 +58,9 @@ const renderHtml = (
  */
 export const ssrRender: RequestHandler = async (req, res, next) => {
 	const treq: TSSRRequest<ISSRAppBaseState> = req as any
+	if (!checkSSRMiddleware(treq, res, next)) {
+		return
+	}
 	const appRender = getAppRenderer(treq.ssrOptions.appRootFilePath)
 	const html = await loadHtml(treq.ssrOptions.indexHTMLPath)
 

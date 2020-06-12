@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { concatUrls } from "utilities/generic/concatUrls"
-import { createUseStyles } from "react-jss"
+import { createClasses } from "utils/createClasses"
 
-const useStyles = createUseStyles((theme: any) => ({
+const useStyles = createClasses((theme: any) => ({
 	container: {
 		border: `3px solid ${theme.myTheme.color}`
 	}

@@ -23,9 +23,7 @@ if (!container) {
 	)
 }
 if (container && container.children.length > 0) {
-	console.log("hydrate")
 	hydrate(<Container />, container)
 } else {
-	console.log("render")
 	render(<Container />, container)
 }

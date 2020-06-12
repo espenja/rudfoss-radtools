@@ -2,13 +2,13 @@ import React, { useState } from "react"
 import { concatUrls } from "utilities/generic/concatUrls"
 import { createUseStyles } from "react-jss"
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles((theme: any) => ({
 	container: {
-		border: "3px solid #f00"
+		border: `3px solid ${theme.myTheme.color}`
 	}
-})
+}))
 
-export const TestComponent: React.FC = () => {
+export const StyledComponent: React.FC = () => {
 	const [a, setA] = useState("foo")
 	const [b, setB] = useState("bar")
 	const classes = useStyles()
@@ -23,4 +23,4 @@ export const TestComponent: React.FC = () => {
 	)
 }
 
-export default TestComponent
+export default StyledComponent

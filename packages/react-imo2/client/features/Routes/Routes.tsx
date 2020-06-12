@@ -1,23 +1,26 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
-import TestComponent from "features/TestComponent"
-import AsyncTest from "features/AsyncTest"
 import NotFound from "../NotFound"
 import Thrower from "../Thrower"
+import Textbox from "test-ui"
+import StyledComponent from "features/StyledComponent"
 
 export const Routes: React.FC = () => (
 	<Switch>
 		<Route path="/" exact>
-			<TestComponent />
+			<p>Welcome</p>
 		</Route>
-		<Route path="/async">
-			<AsyncTest />
+		<Route path="/styled">
+			<StyledComponent />
 		</Route>
 		<Route path="/async2">
 			<Redirect to="/async" />
 		</Route>
 		<Route path="/throw">
 			<Thrower />
+		</Route>
+		<Route path="/ui">
+			<Textbox />
 		</Route>
 
 		<Route

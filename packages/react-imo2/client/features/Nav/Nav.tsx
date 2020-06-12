@@ -9,10 +9,10 @@ export const Nav: React.FC = () => {
 					<Link to="/">Home</Link>
 				</li>
 				<li>
-					<Link to="/async">Async</Link>
+					<Link to="/styled">Styled</Link>
 				</li>
 				<li>
-					<Link to="/async2">Async2</Link>
+					<Link to="/ui">UI</Link>
 				</li>
 				<li>
 					<Link to="/throw">Test Throw</Link>

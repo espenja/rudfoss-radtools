@@ -1,14 +1,10 @@
 {
 	"typescript.tsdk": "node_modules\\typescript\\lib",
-	"editor.codeActionsOnSave": {
-		"source.fixAll.tslint": true
-	},
 	"files.eol": "\n",
 	"editor.rulers": [120],
 	"barrelr.useDoubleQuotes": true,
-	"powershell.developer.editorServicesLogLevel": "Verbose",
+	"debug.internalConsoleOptions": "neverOpen",
 	"editor.formatOnSave": true,
-	"prettier.typescriptEnable": ["typescript", "typescriptreact"],
 	"[typescript]": {
 		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "esbenp.prettier-vscode"

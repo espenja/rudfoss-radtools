@@ -1,14 +1,19 @@
-import React from "react"
+interface EvtWithTargetValue {
+	[key: string]: any
+	target: {
+		value: string
+		[key: string]: any
+	}
+}
 
 /**
  * Helper function for extracting the text value from a change event.
  * @param onChange The handler to call when the value changes.
  * @param filter An optional filter for the new value.
  */
-export const onChangeHelper = (
-	onChange: (newText: string) => any,
-	filter?: (newText: string) => boolean
-) => (evt: React.ChangeEvent<any>) => {
+export const onChangeHelper = (onChange: (newText: string) => any, filter?: (newText: string) => boolean) => (
+	evt: EvtWithTargetValue
+) => {
 	const newText = evt.target.value
 	if (filter && !filter(newText)) return
 	onChange(newText)

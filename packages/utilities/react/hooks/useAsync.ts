@@ -17,10 +17,7 @@ export enum AsyncState {
  * @param asyncFunction - The function to execute
  * @param immediate - Will immediately execute the async function when the hook is created.
  */
-export const useAsync = <TResponse>(
-	asyncFunction: () => Promise<TResponse>,
-	immediate = true
-) => {
+export const useAsync = <TResponse>(asyncFunction: () => Promise<TResponse>, immediate = true) => {
 	const [status, setStatus] = useState<AsyncState>(AsyncState.idle)
 	const [value, setValue] = useState<TResponse | undefined>(undefined)
 	const [error, setError] = useState<Error | undefined>(undefined)

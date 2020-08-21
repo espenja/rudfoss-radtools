@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react"
 
-export const useDebounce = <TValue>(value: TValue, delay: number) => {
+/**
+ * Returns a value that is updated only after it remains unchanged for the specified delay.
+ * @param value A value that changes frequently.
+ * @param delayMS The number of milliseconds to wait for the value to settle before returning it.
+ */
+export const useDebounce = <TValue>(value: TValue, delayMS: number) => {
 	const [debouncedValue, setDebouncedValue] = useState(value)
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
 			setDebouncedValue(value)
-		}, delay)
+		}, delayMS)
 		return () => {
 			clearTimeout(timeoutId)
 		}
-	}, [value, delay])
+	}, [value, delayMS])
 
 	return debouncedValue
 }

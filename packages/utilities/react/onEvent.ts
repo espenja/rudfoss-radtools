@@ -1,17 +1,21 @@
-interface IOnEventOptions {
+interface EventOptions {
 	preventDefault?: boolean
 	stopPropagation?: boolean
 }
 
-type EventHandler = <T extends React.BaseSyntheticEvent>(evt: T) => any
+type EventHandler = <T extends Event>(evt: T) => any
 
 /**
- * Creates an event handler that configures the event accordingly before passing control to your handler.
+ * Creates an event handler that configures the event accourding to the options before passing control to your handler.
+ *
+ * E.g.:
+```typescript-react
+<form onSubmit={onEvent({preventDefault: true})(handleSubmit)}>
+// ...
+```
  * @param options
  */
-export const onEvent = <T extends React.BaseSyntheticEvent>(
-	options: IOnEventOptions = {}
-) => {
+export const onEvent = <T extends Event>(options: EventOptions = {}) => {
 	const { preventDefault = false, stopPropagation = false } = options
 	return (handler: EventHandler) => (evt: T) => {
 		if (preventDefault) {

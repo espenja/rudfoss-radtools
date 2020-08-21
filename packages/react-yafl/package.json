@@ -2,5 +2,8 @@
   "name": "react-yafl",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.8"
+  }
 }

@@ -2,8 +2,11 @@ import fs from "fs"
 import { promisify } from "util"
 
 /**
- * Writes content toa UTF8 file without BOM
+ * Writes content to a UTF8 file without BOM.
  * @param path
  */
-export const writeUTFFile = async (path: string, content: string) =>
-	promisify(fs.writeFile)(path, content, { encoding: "utf8" })
+export const writeUTFFile = async (
+	path: string,
+	content: string,
+	options: fs.WriteFileOptions = { encoding: "utf-8" }
+) => promisify(fs.writeFile)(path, content, options)

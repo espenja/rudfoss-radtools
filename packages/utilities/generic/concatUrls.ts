@@ -10,11 +10,6 @@ const eitherRX = /^\/*(.+?)\/*$/
 export const concatUrls = (fragments: string[]): string => {
 	const ln = fragments.length
 	return fragments
-		.map((fragment, idx) =>
-			fragment.replace(
-				idx === 0 ? trailingRX : idx === ln - 1 ? leadingRX : eitherRX,
-				"$1"
-			)
-		)
+		.map((fragment, idx) => fragment.replace(idx === 0 ? trailingRX : idx === ln - 1 ? leadingRX : eitherRX, "$1"))
 		.join("/")
 }

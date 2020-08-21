@@ -7,6 +7,7 @@ import forge from "node-forge"
 
 /**
  * Generates a {key, pem} self-signed certificate set for use with development only!
+ * Requires dependency node-forge
  */
 export const generateCerts = () => {
 	const pki = forge.pki

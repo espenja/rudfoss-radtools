@@ -4,7 +4,7 @@ import { promisify } from "util"
 const fsExists = promisify(fs.exists)
 const fsLstat = promisify(fs.lstat)
 
-export type TPathType = "file" | "directory" | "any"
+type TPathType = "file" | "directory" | "any"
 
 /**
  * Checks if the path exists.
@@ -21,14 +21,11 @@ export const pathExists = async (path: string, type: TPathType = "any") => {
 }
 
 /**
- * Returns the first path that exists
+ * Returns the first path that exists from the array.
  * @param paths
  * @param type
  */
-export const firstPathExists = async (
-	paths: string[] | Array<[string, TPathType]>,
-	type: TPathType = "any"
-) => {
+export const firstPathExists = async (paths: string[] | Array<[string, TPathType]>, type: TPathType = "any") => {
 	for (const pathEntry of paths) {
 		const path = Array.isArray(pathEntry) ? pathEntry[0] : pathEntry
 		const realType = Array.isArray(pathEntry) ? pathEntry[1] : type

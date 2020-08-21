@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "rimraf ./dist-dev && cross-env TS_NODE_PROJECT=webpack/tsconfig.json webpack-dev-server --config webpack/webpack.dev.ts --progress --hot",
+    "dev": "rimraf dist-dev && ts-node scripts/dev.ts",
     "start": "yarn dev"
   },
   "devDependencies": {
@@ -26,6 +26,7 @@
     "html-webpack-harddisk-plugin": "^1.0.1",
     "html-webpack-plugin": "^4.3.0",
     "react-hot-loader": "^4.12.21",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"

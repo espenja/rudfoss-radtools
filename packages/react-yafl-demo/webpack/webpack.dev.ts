@@ -5,8 +5,7 @@ import "webpack-dev-server" // Adds devServer types to configuration
 import ForkTSCheckerPlugin from "fork-ts-checker-webpack-plugin"
 import HtmlHarddiskPlugin from "html-webpack-harddisk-plugin"
 import HtmlPlugin from "html-webpack-plugin"
-
-import { tsConfigPathsToWebpackAliases } from "./tsConfigPathsToWebpackAliases"
+import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
@@ -14,14 +13,15 @@ const ROOT_FOLDER = path.resolve(__dirname, "../")
 const SRC_FOLDER = path.resolve(ROOT_FOLDER, "src")
 const INDEX_JS_FILE = path.resolve(SRC_FOLDER, "index.ts")
 const INDEX_HTML_FILE = path.resolve(SRC_FOLDER, "index.html")
-const DIST_FOLDER = path.resolve(ROOT_FOLDER, "dist-dev")
+const DIST_FOLDER = path.resolve(ROOT_FOLDER, ".cache")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "tsconfig.json")
 
-export default async () => {
-	const alias = await tsConfigPathsToWebpackAliases(TS_CONFIG_PATH)
+const PORT = 3010
 
+export default async () => {
 	const config: webpack.Configuration = {
 		mode: "development",
+		target: "web",
 		devtool: "source-map",
 
 		devServer: {
@@ -31,7 +31,7 @@ export default async () => {
 			overlay: true,
 			inline: true,
 			writeToDisk: true,
-			port: 3010,
+			port: PORT,
 			headers: {
 				"Access-Control-Allow-Origin": "*"
 			}
@@ -48,16 +48,20 @@ export default async () => {
 		output: {
 			filename: "js/[name]-[hash].js",
 			chunkFilename: "js/[name]-[hash].js",
-			publicPath: "https://localhost:3010/", // The last / is critical, without it reloading breaks
+			publicPath: `https://localhost:${PORT}/`, // The last / is critical, without it reloading breaks
 			path: DIST_FOLDER
 		},
 
 		resolve: {
 			extensions: [".js", ".ts", ".tsx"],
 			alias: {
-				"react-dom": "@hot-loader/react-dom", // https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom
-				...alias
-			}
+				"react-dom": "@hot-loader/react-dom" // https://github.com/gaearon/react-hot-loader#hot-loaderreact-dom
+			},
+			plugins: [
+				new TsConfigPathsPlugin({
+					configFile: TS_CONFIG_PATH
+				})
+			]
 		},
 
 		module: {

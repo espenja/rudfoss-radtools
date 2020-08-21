@@ -1,32 +1,15 @@
 import React from "react"
-import GlobalStyles from "features/styles/GlobalStyles"
+import GlobalStyles from "features/GlobalStyles"
 import { BrowserRouter as Router } from "react-router-dom"
-import Routes from "features/routes"
-import Nav from "features/Nav"
+import Layout from "features/Layout"
 
-declare global {
-	interface Window {
-		app: App
-	}
-}
-
-export class App extends React.PureComponent<any> {
-	public constructor(props: any) {
-		super(props)
-		window.app = this
-	}
-
-	public render() {
-		return (
-			<>
-				<GlobalStyles />
-				<Router>
-					<Nav />
-					<Routes />
-				</Router>
-			</>
-		)
-	}
-}
+export const App: React.FC = () => (
+	<>
+		<GlobalStyles />
+		<Router>
+			<Layout />
+		</Router>
+	</>
+)
 
 export default App

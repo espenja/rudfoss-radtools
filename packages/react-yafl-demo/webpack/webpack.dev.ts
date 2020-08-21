@@ -10,9 +10,8 @@ import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 const CACHE_ENABLED = true // Control caching for all rules/plugins and optimizers
 
 const ROOT_FOLDER = path.resolve(__dirname, "../")
-const SRC_FOLDER = path.resolve(ROOT_FOLDER, "src")
-const INDEX_JS_FILE = path.resolve(SRC_FOLDER, "index.ts")
-const INDEX_HTML_FILE = path.resolve(SRC_FOLDER, "index.html")
+const INDEX_JS_FILE = path.resolve(ROOT_FOLDER, "./app", "index.ts")
+const INDEX_HTML_FILE = path.resolve(ROOT_FOLDER, "./app", "index.html")
 const DIST_FOLDER = path.resolve(ROOT_FOLDER, ".cache")
 const TS_CONFIG_PATH = path.resolve(ROOT_FOLDER, "tsconfig.json")
 
